@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in thse future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_xcom
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+<layout>
+    <adminhtml_sales_order_channelview>
+        <reference name="head">
+            <action method="addJs"><file>mage/adminhtml/giftmessage.js</file></action>
+            <action method="addJs"><file>mage/adminhtml/giftoptions/tooltip.js</file></action>
+        </reference>
+        <reference name="content">
+            <block type="xcom_channelorder/adminhtml_sales_order_view" name="sales_order_edit"></block>
+        </reference>
+        <reference name="left">
+            <block type="adminhtml/sales_order_view_tabs" name="sales_order_tabs">
+                <block type="adminhtml/sales_order_view_tab_info" name="order_tab_info" template="xcom/channelorder/view/tab/info.phtml">
+                    <block type="adminhtml/sales_order_view_messages" name="order_messages"></block>
+                    <block type="adminhtml/sales_order_view_info" name="order_info" template="xcom/channelorder/view/info.phtml"></block>
+                    <block type="core/template" name="xcom_channelorder_shipping_info" template="xcom/channelorder/view/tab/info/shipping.phtml"/>
+                    <block type="adminhtml/sales_order_view_items" name="order_items" template="sales/order/view/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_order_view_items_renderer_default</block><template>sales/order/view/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>xcom/channelorder/items/column/name.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+                        <block type="core/text_list" name="order_item_extra_info" />
+                    </block>
+                    <block type="core/template" name="order_payment" template="xcom/channelorder/view/tab/info/payment.phtml"/>
+                    <block type="adminhtml/sales_order_view_history" name="order_history" template="xcom/channelorder/view/history.phtml"></block>
+                    <block type="adminhtml/template" name="gift_options" template="sales/order/giftoptions.phtml">
+                        <block type="adminhtml/sales_order_view_giftmessage" name="order_giftmessage" template="sales/order/view/giftmessage.phtml"></block>
+                    </block>
+                    <block type="adminhtml/sales_order_totals" name="order_totals" template="sales/order/totals.phtml">
+                        <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                    </block>
+                </block>
+                <action method="addTab"><name>order_info</name><block>order_tab_info</block></action>
+                <action method="addTab"><name>order_invoices</name><block>adminhtml/sales_order_view_tab_invoices</block></action>
+                <action method="addTab"><name>order_creditmemos</name><block>adminhtml/sales_order_view_tab_creditmemos</block></action>
+                <action method="addTab"><name>order_shipments</name><block>adminhtml/sales_order_view_tab_shipments</block></action>
+                <action method="addTab"><name>order_history</name><block>adminhtml/sales_order_view_tab_history</block></action>
+                <action method="addTab"><name>order_transactions</name><block>adminhtml/sales_order_view_tab_transactions</block></action>
+            </block>
+        </reference>
+    </adminhtml_sales_order_channelview>
+    <adminhtml_sales_order_shipment_channelnew>
+        <reference name="content">
+            <block type="adminhtml/sales_order_shipment_create" name="sales_shipment_create">
+                <block type="adminhtml/sales_order_shipment_create_form" name="form" template="xcom/channelorder/shipment/create/form.phtml">
+                    <block type="adminhtml/sales_order_view_info" name="order_info" template="xcom/channelorder/view/info.phtml"></block>
+                    <block type="core/template" name="order_payment" template="xcom/channelorder/view/tab/info/payment.phtml"/>
+                    <block type="core/template" name="xcom_channelorder_shipping_info" template="xcom/channelorder/shipment/view/info/shipping.phtml" >
+                        <block type="adminhtml/sales_order_shipment_create_tracking" name="shipment_tracking" as="shipment_tracking" template="sales/order/shipment/create/tracking.phtml"></block>
+                    </block>
+                    <block type="xcom_channelorder/adminhtml_sales_order_shipment_create_items" name="order_items" template="xcom/channelorder/shipment/create/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>xcom/channelorder/shipment/create/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>xcom/channelorder/items/column/name.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+                        <block type="core/text_list" name="order_item_extra_info"></block>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_sales_order_shipment_channelnew>
+
+    <adminhtml_sales_order_shipment_channelview>
+        <reference name="content">
+            <block type="xcom_channelorder/adminhtml_sales_order_shipment_view" name="sales_shipment_view">
+                <block type="adminhtml/sales_order_shipment_view_form" name="form" template="xcom/channelorder/shipment/view/form.phtml">
+                    <block type="adminhtml/sales_order_view_info" name="order_info" template="xcom/channelorder/view/info.phtml"></block>
+                    <block type="core/template" name="order_payment" template="xcom/channelorder/view/tab/info/payment.phtml"/>
+                    <block type="core/template" name="xcom_channelorder_shipping_info" template="xcom/channelorder/shipment/view/info/shipping.phtml" >
+                        <block type="adminhtml/sales_order_shipment_view_tracking" name="shipment_tracking" template="sales/order/shipment/view/tracking.phtml"></block>
+                    </block>
+                    <block type="adminhtml/sales_order_shipment_view_items" name="shipment_items" template="sales/order/shipment/view/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/shipment/view/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>xcom/channelorder/items/column/name.phtml</template></action>
+                        <block type="core/text_list" name="order_item_extra_info"></block>
+                    </block>
+                    <block type="xcom_channelorder/adminhtml_sales_order_comment_view"  name="shipment_comments" template="xcom/channelorder/comments/view.phtml">
+                        <action method="setParentType"><type>shipment</type></action>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_sales_order_shipment_channelview>
+<adminhtml_sales_order_shipment_addcomment>
+        <reference name="order_comments">
+            <action method="setTemplate">
+                <template>xcom/channelorder/comments/view.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_shipment_addcomment>
+
+    <adminhtml_sales_order_addcomment>
+        <reference name="order_history">
+            <action method="setTemplate">
+                <template>xcom/channelorder/view/history.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_addcomment>
+
+    <adminhtml_sales_order_invoice_channelview>
+        <reference name="content">
+            <block type="adminhtml/sales_order_invoice_view" name="sales_invoice_view">
+                <action method="updateButton"><id>send_notification</id><key>class</key><data>disabled</data></action>
+                <action method="updateButton"><id>send_notification</id><key>disabled</key><data>true</data></action>
+                <action method="updateButton"><id>send_notification</id><key>onclick</key><data></data></action>
+                <block type="adminhtml/sales_order_invoice_view_form" name="form" template="xcom/channelorder/invoice/view/form.phtml">
+                    <block type="adminhtml/sales_order_view_info" name="order_info" template="xcom/channelorder/view/info.phtml"></block>
+                    <block type="core/template" name="order_payment" template="xcom/channelorder/view/tab/info/payment.phtml"/>
+                    <block type="core/template" name="xcom_channelorder_shipping_info" template="xcom/channelorder/view/tab/info/shipping.phtml"/>
+                    <block type="adminhtml/sales_order_invoice_view_items" name="invoice_items" template="sales/order/invoice/view/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/invoice/view/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>xcom/channelorder/items/column/name.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>xcom/channelorder/items/column/name.phtml</template><type>grouped</type></action>
+                        <block type="core/text_list" name="order_item_extra_info"></block>
+                    </block>
+                    <block type="adminhtml/sales_order_comments_view" name="order_comments" template="xcom/channelorder/invoice/comments/view.phtml">
+                        <action method="setParentType"><type>invoice</type></action>
+                    </block>
+                    <block type="adminhtml/sales_order_invoice_totals" name="invoice_totals" template="sales/order/totals.phtml">
+                        <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_sales_order_invoice_channelview>
+
+    <adminhtml_sales_order_invoice_addcomment>
+        <reference name="order_comments">
+            <action method="setTemplate">
+                <template>xcom/channelorder/comments/view.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_invoice_addcomment>
+
+    <adminhtml_sales_order_creditmemo_xcomnew>
+        <reference name="content">
+            <block type="adminhtml/sales_order_creditmemo_create" name="sales_creditmemo_create">
+                <block type="adminhtml/sales_order_creditmemo_create_form" name="form" template="xcom/channelorder/creditmemo/create/form.phtml">
+                    <block type="adminhtml/sales_order_view_info" name="order_info" template="xcom/channelorder/view/info.phtml"></block>
+                    <block type="core/template" name="order_payment" template="xcom/channelorder/view/tab/info/payment.phtml"/>
+                    <block type="core/template" name="xcom_channelorder_shipping_info" template="xcom/channelorder/view/tab/info/shipping.phtml"/>
+                    <block type="xcom_channelorder/adminhtml_sales_order_creditmemo_create_items" name="order_items" template="xcom/channelorder/creditmemo/create/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/creditmemo/create/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>xcom/channelorder/items/column/name.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>xcom/channelorder/items/column/name.phtml</template><type>grouped</type></action>
+                        <block type="core/text_list" name="order_item_extra_info"></block>
+                        <block type="adminhtml/sales_order_totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
+
+                        <block type="adminhtml/sales_order_creditmemo_totals" name="creditmemo_totals" template="sales/order/totals.phtml">
+                            <block type="adminhtml/sales_order_creditmemo_create_adjustments" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml" />
+                            <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                        </block>
+                        <block type="core/text_list" name="submit_before" />
+                        <block type="core/text_list" name="submit_after" />
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_sales_order_creditmemo_xcomnew>
+
+    <adminhtml_sales_order_creditmemo_xcomview>
+        <reference name="content">
+            <block type="adminhtml/sales_order_creditmemo_view" name="sales_creditmemo_view">
+                <action method="updateButton"><id>send_notification</id><key>class</key><data>disabled</data></action>
+                <action method="updateButton"><id>send_notification</id><key>disabled</key><data>true</data></action>
+                <action method="updateButton"><id>send_notification</id><key>onclick</key><data></data></action>
+                <block type="adminhtml/sales_order_creditmemo_view_form" name="form" template="xcom/channelorder/creditmemo/view/form.phtml">
+                    <block type="adminhtml/sales_order_view_info" name="order_info" template="xcom/channelorder/view/info.phtml"></block>
+                    <block type="core/template" name="order_payment" template="xcom/channelorder/view/tab/info/payment.phtml"/>
+                    <block type="core/template" name="xcom_channelorder_shipping_info" template="xcom/channelorder/view/tab/info/shipping.phtml"/>
+                    <block type="adminhtml/sales_order_creditmemo_view_items" name="creditmemo_items" template="sales/order/creditmemo/view/items.phtml">
+                        <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/creditmemo/view/items/renderer/default.phtml</template></action>
+                        <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>xcom/channelorder/items/column/name.phtml</template></action>
+                        <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>xcom/channelorder/items/column/name.phtml</template><type>grouped</type></action>
+                        <block type="core/text_list" name="order_item_extra_info"></block>
+                    </block>
+                    <block type="adminhtml/sales_order_comments_view" name="order_comments" template="xcom/channelorder/comments/view.phtml">
+                        <action method="setParentType"><type>creditmemo</type></action>
+                    </block>
+                    <block type="adminhtml/sales_order_creditmemo_totals" name="creditmemo_totals" template="sales/order/totals.phtml">
+                        <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </adminhtml_sales_order_creditmemo_xcomview>
+
+    <adminhtml_sales_order_creditmemo_addcomment>
+        <reference name="order_comments">
+            <action method="setTemplate">
+                <template>xcom/channelorder/comments/view.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_creditmemo_addcomment>
+</layout>

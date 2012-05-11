@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Xcom
+ * @package     Xcom_Cse
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Xcom_Cse>
+            <version>0.0.1</version>
+        </Xcom_Cse>
+    </modules>
+    <global>
+        <blocks>
+            <xcom_cse>
+                <class>Xcom_Cse_Block</class>
+            </xcom_cse>
+        </blocks>
+        <models>
+            <xcom_cse>
+                <class>Xcom_Cse_Model</class>
+                <resourceModel>xcom_cse_resource</resourceModel>
+            </xcom_cse>
+            <xcom_cse_resource>
+                <class>Xcom_Cse_Model_Resource</class>
+                <entities>
+                    <account>
+                        <table>xcom_cse_account</table>
+                    </account>
+                    <channel>
+                        <table>xcom_cse_channel</table>
+                    </channel>
+                    <site>
+                        <table>xcom_cse_site</table>
+                    </site>
+                </entities>
+            </xcom_cse_resource>
+        </models>
+        <resources>
+            <xcom_cse_setup>
+                <setup>
+                    <module>Xcom_Cse</module>
+                </setup>
+            </xcom_cse_setup>
+        </resources>
+        <helpers>
+            <xcom_cse>
+                <class>Xcom_Cse_Helper</class>
+            </xcom_cse>
+        </helpers>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <xcom_cse>
+                    <file>xcom/cse.xml</file>
+                </xcom_cse>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Xcom_Cse>
+                    <files>
+                        <default>Xcom_Cse.csv</default>
+                    </files>
+                </Xcom_Cse>
+            </modules>
+        </translate>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Xcom_Cse before="Mage_ChannelGroup_Adminhtml">Xcom_Cse_Adminhtml</Xcom_Cse>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <default>
+        <xcom>
+            <channel>
+                <group>
+                    <cse>
+                        <title>Comparison Shopping Engine</title>
+                        <code>cse</code>
+                        <sort_order>20</sort_order>
+                    </cse>
+                </group>
+            </channel>
+            <topics>
+                <cse>
+                    <authorization_init>
+                        <name>cse/authorization/init</name>
+                        <message>xcom_cse/message_cse_authorization_init_request</message>
+                    </authorization_init>
+                    <authorization_pending>
+                        <name>cse/authorization/pending</name>
+                        <message>xcom_cse/message_cse_authorization_init_response</message>
+                    </authorization_pending>
+                    <authorization_initFailed>
+                        <name>cse/authorization/initFailed</name>
+                        <message>xcom_cse/message_cse_authorization_init_failed</message>
+                    </authorization_initFailed>
+                    <authorization_userCompleted>
+                        <name>cse/authorization/userCompleted</name>
+                        <message>xcom_cse/message_cse_authorization_complete_request</message>
+                    </authorization_userCompleted>
+                    <authorization_completed>
+                        <name>cse/authorization/completed</name>
+                        <message>xcom_cse/message_cse_authorization_complete_response</message>
+                    </authorization_completed>
+                    <authorization_failed>
+                        <name>cse/authorization/failed</name>
+                        <message>xcom_cse/message_cse_authorization_complete_failed</message>
+                    </authorization_failed>
+                </cse>
+            </topics>
+        </xcom>
+    </default>
+</config>

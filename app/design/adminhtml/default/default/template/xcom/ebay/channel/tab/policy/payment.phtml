@@ -1,0 +1,137 @@
+<?php
+/** @var $this Xcom_Ebay_Block_Adminhtml_Channel_Edit_Tab_Policy_Accordion_Payment */
+echo $this->getFormHtml();
+?>
+<script type="text/javascript">
+//<![CDATA[
+paymentMethodField = new Class.create();
+paypalImmediatePayment = new Class.create();
+
+paypalImmediatePayment.prototype = {
+    fieldName: null,
+    fieldValue: null,
+    parentEl : null,
+    fieldEl : null,
+    initialize: function(fieldId, fieldName, fieldValue, parentEl) {
+        this.fieldId = fieldId;
+        this.fieldName = fieldName;
+        this.fieldValue = fieldName;
+        this.parentEl = parentEl;
+        this.createField();
+        this.appendField();
+    },
+
+    createField: function() {
+        var chbx = document.createElement('input');
+        Element.extend(chbx);
+        chbx.setAttribute('type', 'checkbox');
+        chbx.setAttribute('name', this.fieldName);
+        chbx.setAttribute('id', this.fieldId);
+        if (this.fieldValue) {
+            chbx.setAttribute('checked', 'checked');
+        }
+        this.fieldEl = chbx;
+    },
+
+    appendField: function() {
+        var lbl = document.createElement('label');
+        lbl.htmlFor = this.fieldId;
+        lbl.appendChild(this.fieldEl);
+
+        var txt = document.createTextNode(' Immediate Payment Required');
+        lbl.style.whiteSpace = 'nowrap';
+        lbl.appendChild(txt);
+
+        this.parentEl.appendChild(lbl);
+    },
+};
+
+paymentMethodField.prototype = {
+    fieldName : null,
+    fieldValue : null,
+    paypalImmediatePaymentOption : null,
+    initialize : function(fieldId, fieldName, fieldValue) {
+        if ($(fieldId)) {
+            Event.observe($(fieldId), 'click', this.updateField.bind(this));
+            this.fieldName = fieldName;
+            this.fieldValue = fieldValue;
+            if (this.fieldValue && $(fieldId).checked) {
+                this.createField($(fieldId));
+            }
+            this.addValidationClassToField();
+        }
+        varienGlobalEvents.attachEventHandler('resetPolicyForm', this.resetField.bind(this));
+    },
+
+    addValidationClassToField : function() {
+        var firstPaymentMethod = $$('input[name="payment_name\[\]"]').first();
+        if (firstPaymentMethod && !$(firstPaymentMethod).hasClassName('validate-one-required-by-name')) {
+            $(firstPaymentMethod).addClassName('validate-one-required-by-name');
+        }
+    },
+
+    resetField : function() {
+        if ($(this.fieldName + '_div')) {
+            this.deleteField($(this.fieldName + '_div'));
+        }
+    },
+
+    updateField : function(event) {
+        var element = Event.element(event);
+        if (element.checked) {
+            this.createField(element);
+        } else {
+            this.deleteField(element);
+        }
+    },
+
+    createField : function (element) {
+        var div = this._createDiv();
+        div.appendChild(this._createTextField());
+
+        var parent = element.parentNode;
+        Element.extend(parent);
+        parent.addClassName(this.fieldName + '_li');
+        parent.appendChild(div);
+        parent.style.paddingBottom = '1.1em';
+
+        var br = document.createElement('br');
+        div.appendChild(br);
+
+        this.paypalImmediatePaymentOption = new paypalImmediatePayment('paypal_immediate_py_el', 'paypal_immediate_payment', <?php
+        $immediate = $this->getPolicy()->getPaymentPaypalImmediate();
+        if(empty($immediate)) { echo '0'; } else { echo '1'; }
+        ?>, div);
+        new Varien.searchForm('policy_edit_form', this.fieldName, 'Your PayPal email address');
+    },
+
+    _createTextField : function() {
+        var field = document.createElement('input');
+        Element.extend(field);
+        field.setAttribute('type', 'text');
+        field.setAttribute('name', this.fieldName);
+        field.setAttribute('id', this.fieldName);
+        field.addClassName('required-entry input-text validate-email');
+        if (this.fieldValue) {
+            field.setAttribute('value', this.fieldValue);
+        }
+        return field;
+    },
+
+    _createDiv : function() {
+        var div = document.createElement('div');
+        Element.extend(div);
+        div.setAttribute('id', this.fieldName + '_div');
+        div.addClassName('field-row ' + this.fieldName + '_field');
+        return div;
+    },
+
+    deleteField : function(element) {
+        element.parentNode.select('div').each(function(item) {item.remove();});
+    }
+};
+
+var PaymentMethodField = new paymentMethodField('<?php echo $this->getCheckboxFieldId(); ?>', 'payment_paypal_email',
+    '<?php echo $this->getPolicy()->getPaymentPaypalEmail(); ?>');
+//]]>
+</script>

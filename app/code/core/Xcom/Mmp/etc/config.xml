@@ -1,0 +1,299 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Xcom
+ * @package     Xcom_Mmp
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Xcom_Mmp>
+            <version>0.1.4</version>
+        </Xcom_Mmp>
+    </modules>
+    <global>
+        <blocks>
+            <xcom_mmp>
+                <class>Xcom_Mmp_Block</class>
+            </xcom_mmp>
+        </blocks>
+        <models>
+            <xcom_mmp>
+                <class>Xcom_Mmp_Model</class>
+                <resourceModel>xcom_mmp_resource</resourceModel>
+            </xcom_mmp>
+            <xcom_mmp_resource>
+                <class>Xcom_Mmp_Model_Resource</class>
+                <entities>
+                    <account>
+                        <table>xcom_mmp_account</table>
+                    </account>
+                    <channel>
+                        <table>xcom_mmp_channel</table>
+                    </channel>
+                    <policy>
+                        <table>xcom_mmp_channel_policy</table>
+                    </policy>
+                    <shipping_service>
+                        <table>xcom_mmp_shipping_service</table>
+                    </shipping_service>
+                    <policy_shipping>
+                        <table>xcom_mmp_channel_policy_shipping</table>
+                    </policy_shipping>
+                    <country>
+                        <table>xcom_mmp_country</table>
+                    </country>
+                    <currency>
+                        <table>xcom_mmp_currency</table>
+                    </currency>
+                    <environment>
+                        <table>xcom_mmp_environment</table>
+                    </environment>
+                    <handling_time>
+                        <table>xcom_mmp_handling_time</table>
+                    </handling_time>
+                    <payment_method>
+                        <table>xcom_mmp_payment_method</table>
+                    </payment_method>
+                    <return_policy>
+                        <table>xcom_mmp_return_policy</table>
+                    </return_policy>
+                    <site>
+                        <table>xcom_mmp_site</table>
+                    </site>
+                </entities>
+            </xcom_mmp_resource>
+        </models>
+        <resources>
+            <xcom_mmp_setup>
+                <setup>
+                    <module>Xcom_Mmp</module>
+                </setup>
+            </xcom_mmp_setup>
+        </resources>
+        <helpers>
+            <xcom_mmp>
+                <class>Xcom_Mmp_Helper</class>
+            </xcom_mmp>
+        </helpers>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <xcom_mmp>
+                    <file>xcom/mmp.xml</file>
+                </xcom_mmp>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Xcom_Mmp>
+                    <files>
+                        <default>Xcom_Mmp.csv</default>
+                    </files>
+                </Xcom_Mmp>
+            </modules>
+        </translate>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Xcom_Mmp before="Xcom_ChannelGroup_Adminhtml">Xcom_Mmp_Adminhtml</Xcom_Mmp>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <default>
+        <xcom>
+            <channel>
+                <group>
+                    <marketplace>
+                        <title>Marketplaces</title>
+                        <code>marketplace</code>
+                        <sort_order>10</sort_order>
+                    </marketplace>
+                </group>
+            </channel>
+            <policy>
+                <show_full_return_policy_data>
+                    <site_code>US</site_code>
+                </show_full_return_policy_data>
+            </policy>
+            <topics>
+                <marketplace>
+                    <environment_search initializer="prepopulate">
+                        <name>marketplace/environment/search</name>
+                        <message>xcom_mmp/message_marketplace_environment_search_request</message>
+                    </environment_search>
+                    <environment_search_success>
+                        <name>marketplace/environment/searchSucceeded</name>
+                        <message>xcom_mmp/message_marketplace_environment_search_succeeded</message>
+                    </environment_search_success>
+                    <environment_search_failed>
+                        <name>marketplace/environment/searchFailed</name>
+                        <message>xcom_mmp/message_marketplace_environment_search_failed</message>
+                    </environment_search_failed>
+                    <site_search initializer="prepopulate">
+                        <name>marketplace/site/search</name>
+                        <message>xcom_mmp/message_marketplace_site_search_request</message>
+                    </site_search>
+                    <site_search_success>
+                        <name>marketplace/site/searchSucceeded</name>
+                        <message>xcom_mmp/message_marketplace_site_search_succeeded</message>
+                    </site_search_success>
+                    <site_search_fail>
+                        <name>marketplace/site/searchFailed</name>
+                        <message>xcom_mmp/message_marketplace_site_search_failed</message>
+                    </site_search_fail>
+                    <country_search initializer="prepopulate">
+                        <name>marketplace/country/search</name>
+                        <message>xcom_mmp/message_marketplace_country_search_request</message>
+                    </country_search>
+                    <country_search_success>
+                        <name>marketplace/country/searchSucceeded</name>
+                        <message>xcom_mmp/message_marketplace_country_search_succeeded</message>
+                    </country_search_success>
+                    <country_search_fail>
+                        <name>marketplace/country/searchFailed</name>
+                        <message>xcom_mmp/message_marketplace_country_search_failed</message>
+                    </country_search_fail>
+                    <authorization_init>
+                        <name>marketplace/authorization/init</name>
+                        <message>xcom_mmp/message_marketplace_authorization_init_request</message>
+                    </authorization_init>
+                    <authorization_pending>
+                        <name>marketplace/authorization/pending</name>
+                        <message>xcom_mmp/message_marketplace_authorization_init_response</message>
+                    </authorization_pending>
+                    <authorization_initFailed>
+                        <name>marketplace/authorization/initFailed</name>
+                        <message>xcom_mmp/message_marketplace_authorization_init_failed</message>
+                    </authorization_initFailed>
+                    <authorization_userCompleted>
+                        <name>marketplace/authorization/userCompleted</name>
+                        <message>xcom_mmp/message_marketplace_authorization_complete_request</message>
+                    </authorization_userCompleted>
+                    <authorization_completed>
+                        <name>marketplace/authorization/completed</name>
+                        <message>xcom_mmp/message_marketplace_authorization_complete_response</message>
+                    </authorization_completed>
+                    <authorization_failed>
+                        <name>marketplace/authorization/failed</name>
+                        <message>xcom_mmp/message_marketplace_authorization_complete_failed</message>
+                    </authorization_failed>
+                    <paymentMethod_search initializer="prepopulate">
+                        <name>marketplace/paymentMethod/search</name>
+                        <message>xcom_mmp/message_marketplace_paymentMethod_search_request</message>
+                    </paymentMethod_search>
+                    <paymentMethod_search_success>
+                        <name>marketplace/paymentMethod/searchSucceeded</name>
+                        <message>xcom_mmp/message_marketplace_paymentMethod_search_succeeded</message>
+                    </paymentMethod_search_success>
+                    <paymentMethod_search_fail>
+                        <name>marketplace/paymentMethod/searchFailed</name>
+                        <message>xcom_mmp/message_marketplace_paymentMethod_search_failed</message>
+                    </paymentMethod_search_fail>
+                    <shippingService_search initializer="prepopulate">
+                        <name>marketplace/shippingService/search</name>
+                        <message>xcom_mmp/message_marketplace_shippingService_search_request</message>
+                    </shippingService_search>
+                    <shippingService_search_success>
+                        <name>marketplace/shippingService/searchSucceeded</name>
+                        <message>xcom_mmp/message_marketplace_shippingService_search_succeeded</message>
+                    </shippingService_search_success>
+                    <shippingService_search_fail>
+                        <name>marketplace/shippingService/searchFailed</name>
+                        <message>xcom_mmp/message_marketplace_shippingService_search_failed</message>
+                    </shippingService_search_fail>
+                    <currency_search initializer="prepopulate">
+                        <name>marketplace/currency/search</name>
+                        <message>xcom_mmp/message_marketplace_currency_search_request</message>
+                    </currency_search>
+                    <currency_search_success>
+                        <name>marketplace/currency/searchSucceeded</name>
+                        <message>xcom_mmp/message_marketplace_currency_search_succeeded</message>
+                    </currency_search_success>
+                    <currency_search_fail>
+                        <name>marketplace/currency/searchFailed</name>
+                        <message>xcom_mmp/message_marketplace_currency_search_failed</message>
+                    </currency_search_fail>
+                    <returnPolicy_get initializer="prepopulate">
+                        <name>marketplace/returnPolicy/get</name>
+                        <message>xcom_mmp/message_marketplace_returnPolicy_get_request</message>
+                    </returnPolicy_get>
+                    <returnPolicy_get_success>
+                        <name>marketplace/returnPolicy/getSucceeded</name>
+                        <message>xcom_mmp/message_marketplace_returnPolicy_get_succeeded</message>
+                    </returnPolicy_get_success>
+                    <returnPolicy_get_fail>
+                        <name>marketplace/returnPolicy/getFailed</name>
+                        <message>xcom_mmp/message_marketplace_returnPolicy_get_failed</message>
+                    </returnPolicy_get_fail>
+                    <handlingTime_search initializer="prepopulate">
+                        <name>marketplace/handlingTime/search</name>
+                        <message>xcom_mmp/message_marketplace_handlingTime_search_request</message>
+                    </handlingTime_search>
+                    <handlingTime_search_success>
+                        <name>marketplace/handlingTime/searchSucceeded</name>
+                        <message>xcom_mmp/message_marketplace_handlingTime_search_succeeded</message>
+                    </handlingTime_search_success>
+                    <handlingTime_search_fail>
+                        <name>marketplace/handlingTime/searchFailed</name>
+                        <message>xcom_mmp/message_marketplace_handlingTime_search_failed</message>
+                    </handlingTime_search_fail>
+                    <profile_create>
+                        <name>marketplace/profile/create</name>
+                        <message>xcom_mmp/message_marketplace_profile_create_request</message>
+                    </profile_create>
+                    <profile_create_fail>
+                        <name>marketplace/profile/createFailed</name>
+                        <message>xcom_mmp/message_marketplace_profile_create_failed</message>
+                    </profile_create_fail>
+                    <profile_update_fail>
+                        <name>marketplace/profile/updateFailed</name>
+                        <message>xcom_mmp/message_marketplace_profile_update_failed</message>
+                    </profile_update_fail>
+                    <profile_created>
+                        <name>marketplace/profile/created</name>
+                        <message>xcom_mmp/message_marketplace_profile_create_created</message>
+                    </profile_created>
+                    <profile_update>
+                        <name>marketplace/profile/update</name>
+                        <message>xcom_mmp/message_marketplace_profile_update_request</message>
+                    </profile_update>
+                    <profile_updated>
+                        <name>marketplace/profile/updated</name>
+                        <message>xcom_mmp/message_marketplace_profile_update_response</message>
+                    </profile_updated>
+                    <profile_specifics>
+                        <name>marketplace/profile/marketSpecifics</name>
+                        <message>xcom_mmp/message_marketplace_profile_specifics_request</message>
+                    </profile_specifics>
+                </marketplace>
+            </topics>
+        </xcom>
+    </default>
+</config>

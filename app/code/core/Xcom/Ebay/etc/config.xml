@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Xcom
+ * @package     Xcom_Ebay
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Xcom_Ebay>
+            <version>0.1.0</version>
+        </Xcom_Ebay>
+    </modules>
+    <global>
+        <models>
+            <xcom_ebay>
+                <class>Xcom_Ebay_Model</class>
+                <resourceModel>xcom_ebay_resource</resourceModel>
+            </xcom_ebay>
+            <xcom_ebay_resource>
+                <class>Xcom_Ebay_Model_Resource</class>
+                <entities>
+                    <channel_policy>
+                        <table>xcom_ebay_channel_policy</table>
+                    </channel_policy>
+                </entities>
+            </xcom_ebay_resource>
+            <cataloginventory>
+                <rewrite>
+                    <stock>Xcom_Ebay_Model_CatalogInventory_Stock</stock>
+                </rewrite>
+            </cataloginventory>
+        </models>
+        <resources>
+            <xcom_ebay_setup>
+                <setup>
+                    <module>Xcom_Ebay</module>
+                </setup>
+            </xcom_ebay_setup>
+        </resources>
+        <blocks>
+            <xcom_ebay>
+                <class>Xcom_Ebay_Block</class>
+            </xcom_ebay>
+        </blocks>
+        <helpers>
+            <xcom_ebay>
+                <class>Xcom_Ebay_Helper</class>
+            </xcom_ebay>
+        </helpers>
+        <events>
+            <cataloginventory_stock_item_save_after>
+                <observers>
+                    <inventory>
+                        <class>xcom_ebay/observer</class>
+                        <method>synchronizeInventoryAfterStockChanges</method>
+                    </inventory>
+                </observers>
+            </cataloginventory_stock_item_save_after>
+            <!--<sales_model_service_quote_submit_success>-->
+                <!--<observers>-->
+                    <!--<inventory>-->
+                        <!--<class>xcom_ebay/observer</class>-->
+                        <!--<method>synchronizeInventoryAfterQuoteSubmit</method>-->
+                    <!--</inventory>-->
+                <!--</observers>-->
+            <!--</sales_model_service_quote_submit_success>-->
+        </events>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <xcom_ebay>
+                    <file>xcom/ebay.xml</file>
+                </xcom_ebay>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Xcom_Ebay>
+                    <files>
+                        <default>Xcom_Ebay.csv</default>
+                    </files>
+                </Xcom_Ebay>
+            </modules>
+        </translate>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Xcom_Ebay before="Mage_Adminhtml">Xcom_Ebay_Adminhtml</Xcom_Ebay>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <default>
+        <xcom>
+            <channel>
+                <type>
+                    <default>ebay</default>
+                    <ebay>
+                        <group>marketplace</group>
+                        <code>ebay</code>
+                        <title>eBay</title>
+                        <module>Xcom_Ebay</module>
+                        <sort_order>10</sort_order>
+                    </ebay>
+                </type>
+            </channel>
+        </xcom>
+        <xcom_channel>
+            <ebay>
+                <order_sync_ignore_channel_order_sandbox>1</order_sync_ignore_channel_order_sandbox>
+                <order_export_include_channel_csv>1</order_export_include_channel_csv>
+                <inventory_sync_inventory_update_to_zero>1</inventory_sync_inventory_update_to_zero>
+                <inventory_sync_out_stock_update_to_zero>1</inventory_sync_out_stock_update_to_zero>
+                <registration>
+                    <target_capability_name>eBay Marketplace Adapter</target_capability_name>
+                    <store_endpoint_url/>
+                    <request_url><![CDATA[https://devportal.x.com/merchant_onboarding/]]></request_url>
+                    <is_registered>1</is_registered>
+                    <extension_enabled>0</extension_enabled>
+                    <legal_agreement_url><![CDATA[https://www.x.com/legal]]></legal_agreement_url>
+                    <store-front-platform><![CDATA[Magento ver. CE 1.5.1.0]]></store-front-platform>
+                </registration>
+            </ebay>
+        </xcom_channel>
+    </default>
+</config>

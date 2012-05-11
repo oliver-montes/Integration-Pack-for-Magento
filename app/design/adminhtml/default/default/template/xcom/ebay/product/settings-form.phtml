@@ -1,0 +1,94 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+
+<script type="text/javascript">
+    var triggerUpdateState = false;
+</script>
+
+<div class="entry-edit">
+    <?php echo $this->getFormHtml();?>
+</div>
+<?php echo $this->getChildHtml('form_after');?>
+
+<script type="text/javascript">
+    Event.observe($('price_type'), 'change', function(event){
+        if (this.value=='magentoprice') {
+            $('price_value_type').disable();
+            $('price_value').disable();
+            $('price_value_type').style.visibility = 'hidden';
+            $('price_value').style.visibility = 'hidden';
+        } else {
+            $('price_value_type').enable();
+            $('price_value').enable();
+            $('price_value_type').style.visibility = 'visible';
+            $('price_value').style.visibility = 'visible';
+        }
+    });
+    if ($('price_type').value=='magentoprice') {
+        $('price_value_type').disable();
+        $('price_value').disable();
+        $('price_value_type').style.visibility = 'hidden';
+        $('price_value').style.visibility = 'hidden';
+    }
+
+    function disableFieldsForUpdate()
+    {
+        var price_fields = ['price_type', 'price_value', 'price_value_type'];
+        for (var i = 0; i < price_fields.length; i++) {
+            $(price_fields[i]).name = '';
+            Event.observe($(price_fields[i]), 'change', function(event){
+                $('price_value').
+                    addClassName('required-entry validate-greater-than-zero validate-two-digit-fraction validate-less-than-hundred-custom');
+                $('price_type').addClassName('required-entry');
+
+                $('price_type').name = 'price_type';
+                $('price_value_type').name = 'price_value_type';
+                $('price_value').name = 'price_value';
+            });
+        }
+
+        var qty_fields = ['qty_value', 'qty_value_type'];
+        for (var i = 0; i < qty_fields.length; i++) {
+            $(qty_fields[i]).name = '';
+            Event.observe($(qty_fields[i]), 'change', function(event){
+                $('qty_value').
+                    addClassName('required-entry validate-greater-than-zero validate-two-digit-fraction validate-less-than-hundred-custom');
+                $('qty_value').name = 'qty_value';
+                $('qty_value_type').name = 'qty_value_type';
+            });
+        }
+        $('policy_id').name = '';
+        Event.observe($('policy_id'), 'change', function(event){
+            $('policy_id').addClassName('required-entry validate-greater-than-zero');
+            $('policy_id').name = 'policy_id';
+        });
+    }
+
+    if(triggerUpdateState == true) {
+        disableFieldsForUpdate();
+    }
+</script>

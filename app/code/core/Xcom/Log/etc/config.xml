@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Xcom
+ * @package     Xcom_Log
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Xcom_Log>
+            <version>0.1.0</version>
+        </Xcom_Log>
+    </modules>
+    <global>
+        <models>
+            <xcom_log>
+                <class>Xcom_Log_Model</class>
+                <resourceModel>xcom_log_resource</resourceModel>
+            </xcom_log>
+            <xcom_log_resource>
+                <class>Xcom_Log_Model_Resource</class>
+                <entities>
+                    <log>
+                        <table>xcom_log</table>
+                    </log>
+                </entities>
+            </xcom_log_resource>
+        </models>
+        <resources>
+            <xcom_log_setup>
+                <setup>
+                    <module>Xcom_Log</module>
+                </setup>
+            </xcom_log_setup>
+        </resources>
+        <blocks>
+            <xcom_log>
+                <class>Xcom_Log_Block</class>
+            </xcom_log>
+        </blocks>
+        <helpers>
+            <xcom_log>
+                <class>Xcom_Log_Helper</class>
+            </xcom_log>
+        </helpers>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <xcom_log>
+                    <file>xcom/log.xml</file>
+                </xcom_log>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Xcom_Log>
+                    <files>
+                        <default>Xcom_Log.csv</default>
+                    </files>
+                </Xcom_Log>
+            </modules>
+        </translate>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Xcom_Log before="Mage_Adminhtml">Xcom_Log_Adminhtml</Xcom_Log>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>

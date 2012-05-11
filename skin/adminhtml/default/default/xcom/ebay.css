@@ -1,0 +1,13 @@
+/**
+ * Policy Edit Form
+ */
+.shipping-container div.background-no {background-image:none;}
+.shipping-container div.delete-item {padding:10px;cursor:pointer;}
+.shipping-container li{overflow:hidden; cursor:move;}
+.policy_shipping_method_container {padding-top:20px;}
+
+/**
+ * Publish product to channel. Categories tree
+ */
+.tree_container {overflow: auto; max-height: 300px;}
+.field-row.block label {float: none;}

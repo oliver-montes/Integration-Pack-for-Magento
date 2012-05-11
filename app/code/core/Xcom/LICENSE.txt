@@ -1,0 +1,8 @@
+NOTICES
+-------
+X.commerce Developer Package
+Copyright (c) 2012 X.commerce 
+
+X.commerce Developer package is a downloadable package consisting of all the necessary code, Magento extension message
+contracts and samples to get started with building, testing and integrating with the Fabric. It is covered under the
+terms and conditions available at https://www.x.com/developers/x.commerce/x.commerce-developer-package-license-agreement

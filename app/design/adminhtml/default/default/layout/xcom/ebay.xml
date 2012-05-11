@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    default
+ * @package     default_xcom
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addCss"><name>xcom/mmp.css</name></action>
+            <action method="addCss"><name>xcom/ebay.css</name></action>
+        </reference>
+        <reference name="notifications">
+            <block type="xcom_ebay/adminhtml_notifications" name="ebay.notifications" template="xcom/ebay/notifications.phtml" />
+        </reference>
+    </default>
+    <ADMINHTML_CHANNEL_TYPE_ebay>
+        <reference name="content">
+            <block type="xcom_ebay/adminhtml_channel" name="ebay.channel" template="widget/grid/container.phtml">
+                <block type="xcom_ebay/adminhtml_channel_grid" name="ebay.channel.grid" as="grid"/>
+            </block>
+        </reference>
+    </ADMINHTML_CHANNEL_TYPE_ebay>
+
+    <ADMINHTML_CHANNEL_PRODUCT_ebay>
+        <reference name="head">
+            <action method="addJs"><file>xcom/adminhtml/grid.js</file></action>
+        </reference>
+        <reference name="channel_products">
+            <block type="xcom_ebay/adminhtml_product_grid" name="ebay.product.grid" as="grid" />
+        </reference>
+    </ADMINHTML_CHANNEL_PRODUCT_ebay>
+
+    <adminhtml_ebay_product_publish>
+        <reference name="left">
+
+            <block type="xcom_ebay/adminhtml_product_edit_tabs" name="ebay.product.tabs">
+                <block type="xcom_ebay/adminhtml_product_edit_tab_settings" name="ebay_product_settings">
+                    <block type="xcom_ebay/adminhtml_product_edit_tab_settings_categoriesTree" name="ebay.edit.product.categories" template="xcom/ebay/product/categories.phtml" />
+                </block>
+                <action method="addTab">
+                    <name>ebay_product_settings</name>
+                    <block>ebay_product_settings</block>
+                </action>
+            </block>
+        </reference>
+
+        <!-- Enable ExtJS for categories tree -->
+        <reference name="head">
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
+        </reference>
+
+        <reference name="content">
+            <block type="xcom_ebay/adminhtml_product_edit" name="ebay.product.grid.container">
+                <block type="xcom_ebay/adminhtml_product_edit_form" name="ebay.product.form.grid" as="grid" />
+            </block>
+        </reference>
+    </adminhtml_ebay_product_publish>
+
+    <adminhtml_ebay_product_cancel>
+        <reference name="left">
+            <block type="xcom_ebay/adminhtml_product_edit_tabs" name="ebay.product.tabs">
+                <action method="addTab"><name>ebay_product_cancel</name><block>xcom_ebay/adminhtml_product_edit_tab_cancel</block></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="xcom_ebay/adminhtml_product_edit" name="ebay.product.grid.container">
+                <block type="xcom_ebay/adminhtml_product_edit_form" name="ebay.product.form.grid" as="grid" />
+            </block>
+        </reference>
+    </adminhtml_ebay_product_cancel>
+
+    <adminhtml_ebay_product_history>
+        <reference name="left">
+            <block type="xcom_ebay/adminhtml_product_edit_tabs" name="ebay.product.tabs">
+                <action method="addTab"><name>ebay_product_history</name><block>xcom_ebay/adminhtml_product_edit_tab_history</block></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="xcom_ebay/adminhtml_product_edit" name="ebay.product.grid.container">
+                <block type="xcom_ebay/adminhtml_product_edit_tab_history" name="ebay.product.history.grid" as="grid" />
+            </block>
+        </reference>
+    </adminhtml_ebay_product_history>
+
+    <adminhtml_ebay_product_listingerror>
+        <reference name="left">
+            <block type="xcom_ebay/adminhtml_product_edit_tabs" name="ebay.product.tabs">
+                <action method="addTab"><name>ebay_product_history</name><block>xcom_ebay/adminhtml_product_edit_tab_listingerror</block></action>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="xcom_ebay/adminhtml_product_edit" name="ebay.product.grid.container">
+                <block type="xcom_ebay/adminhtml_product_edit_tab_listingerror" name="ebay.product.listingerror.grid" as="grid" />
+            </block>
+        </reference>
+    </adminhtml_ebay_product_listingerror>
+
+    <adminhtml_ebay_channel_edit>
+        <reference name="head">
+            <action method="addJs"><file>xcom/adminhtml/grid.js</file></action>
+        </reference>
+        <reference name="left">
+            <block type="xcom_ebay/adminhtml_channel_edit_tabs" name="ebay_channel_edit_tabs" />
+        </reference>
+        <reference name="content">
+            <block type="xcom_ebay/adminhtml_channel_edit" name="ebay_channel_edit" />
+        </reference>
+    </adminhtml_ebay_channel_edit>
+
+    <adminhtml_ebay_channel_policy>
+        <block type="xcom_ebay/adminhtml_channel_edit_tab_policy" name="channel_edit_tab_policy" template="xcom/ebay/channel/tab/policy.phtml" output="toHtml">
+            <block type="xcom_ebay/adminhtml_channel_edit_tab_policy_accordion" name="policy_accordion" />
+            <block type="xcom_ebay/adminhtml_channel_edit_tab_policy_grid" name="policy_grid" />
+        </block>
+    </adminhtml_ebay_channel_policy>
+
+    <ADMINHTML_ACCOUNT_ebay>
+        <reference name="head">
+            <action method="addJs"><file>xcom/adminhtml/grid.js</file></action>
+        </reference>
+        <reference name="content">
+            <block type="xcom_ebay/adminhtml_account" name="ebay.account" template="widget/grid/container.phtml">
+                <block type="xcom_ebay/adminhtml_account_grid" name="ebay.account.grid" as="grid" />
+            </block>
+        </reference>
+    </ADMINHTML_ACCOUNT_ebay>
+
+    <adminhtml_ebay_account_edit>
+        <reference name="content">
+            <block type="xcom_ebay/adminhtml_account_edit" name="xcom_account_edit">
+                <block type="xcom_ebay/adminhtml_account_edit_form" name="xcom_account_edit_form" as="form" template="xcom/ebay/account/edit/form.phtml"/>
+            </block>
+        </reference>
+    </adminhtml_ebay_account_edit>
+    <adminhtml_ebay_register_index>
+        <reference name="root">
+            <action method="setTemplate"><template>xcom/ebay/register/view.phtml</template></action>
+        </reference>
+    </adminhtml_ebay_register_index>
+</layout>

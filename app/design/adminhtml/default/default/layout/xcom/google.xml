@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    default
+ * @package     default_xcom
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addCss"><name>xcom/cse.css</name></action>
+        </reference>
+    </default>
+    <ADMINHTML_CHANNEL_TYPE_google>
+        <reference name="content">
+            <block type="xcom_google/adminhtml_channel" name="google.channel" template="widget/grid/container.phtml">
+                <block type="xcom_google/adminhtml_channel_grid" name="google.channel.grid" as="grid"/>
+            </block>
+        </reference>
+    </ADMINHTML_CHANNEL_TYPE_google>
+
+    <adminhtml_google_channel_edit>
+        <reference name="head">
+            <action method="addJs"><file>xcom/adminhtml/grid.js</file></action>
+        </reference>
+        <reference name="left">
+            <block type="xcom_google/adminhtml_channel_edit_tabs" name="google_channel_edit_tabs" />
+        </reference>
+        <reference name="content">
+            <block type="xcom_google/adminhtml_channel_edit" name="google_channel_edit" />
+        </reference>
+    </adminhtml_google_channel_edit>
+
+    <ADMINHTML_CHANNEL_PRODUCT_google>
+        <reference name="channel_products">
+            <block type="xcom_google/adminhtml_product_grid" name="google.product.grid" as="grid" />
+        </reference>
+    </ADMINHTML_CHANNEL_PRODUCT_google>
+
+    <ADMINHTML_ACCOUNT_google>
+        <reference name="head">
+            <action method="addJs"><file>xcom/adminhtml/grid.js</file></action>
+        </reference>
+        <reference name="content">
+            <block type="xcom_google/adminhtml_account" name="google.account" template="widget/grid/container.phtml">
+                <block type="xcom_google/adminhtml_account_grid" name="google.account.grid" as="grid" />
+            </block>
+        </reference>
+    </ADMINHTML_ACCOUNT_google>
+
+    <adminhtml_google_account_edit>
+        <reference name="content">
+            <block type="xcom_google/adminhtml_account_edit" name="xcom_account_edit">
+                <block type="xcom_google/adminhtml_account_edit_form" name="xcom_account_edit_form" as="form" template="xcom/google/account/edit/form.phtml"/>
+            </block>
+        </reference>
+    </adminhtml_google_account_edit>
+</layout>

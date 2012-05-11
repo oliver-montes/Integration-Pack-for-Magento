@@ -1,0 +1,209 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Xcom
+ * @package     Xcom_Ebay
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+
+<tr>
+    <td colspan="10" class="grid">
+        <div class="policy_shipping_method_container">
+            <div class="entry-edit-head"><h4 class="icon-head head-customer-view"><span class="required">*</span>&nbsp;&nbsp;<?php echo $this->__('Service (All Shipping Costs are Flat - Same cost to all buyers)'); ?></h4>
+                <div class="form-buttons channel-edit-buttons">
+                    <?php echo $this->getAddButtonHtml() ?>
+                </div>
+            </div>
+            <div id="<?php echo $this->getElement()->getHtmlId() ?>_container" >
+                <ul id="configurable_attributes" class="super-attributes shipping-container">
+
+                </ul>
+            </div>
+        </div>
+    </td>
+</tr>
+<script type="text/javascript">
+    Draggables.register = function (draggable) {
+        if (this.drags.length == 0) {
+            this.eventMouseUp   = this.endDrag.bindAsEventListener(this);
+            this.eventMouseMove = this.updateDrag.bindAsEventListener(this);
+            this.eventKeypress  = this.keyPress.bindAsEventListener(this);
+            Event.observe(document, "mouseup", this.eventMouseUp);
+            Event.observe(document, "keypress", this.eventKeypress);
+        }
+
+        Event.observe(draggable.element, "mousemove", this.eventMouseMove);
+        this.drags.push(draggable);
+    };
+
+    policyShippingRowTemplateSecond = '<li id="row_{{index}}" class="attribute">' +
+        '<div class="attribute-name-container left"><div class="field-row"><?php echo $this->jsQuoteEscape($this->__('Shipping service')); ?><br/>' +
+        '<?php echo $this->jsQuoteEscape($this->getHtmlSelect()); ?>'+
+        '</div></div>' +
+        '<div class="attribute-name-container background-no left"><div class="field-row">' +
+        '<?php echo $this->jsQuoteEscape($this->__('Cost')); ?><br/><input maxlength="10" class="validate-zero-or-greater validate-number shipping-cost required-entry" type="text" name="shipping_cost[]" value="{{cost}}" />' +
+        '</div></div>' +
+        '<div class="attribute-name-container background-no delete-item right">' +
+        '<a title="<?php echo $this->jsQuoteEscape($this->__("Remove Service")); ?>" type="button" class="scalable delete icon-btn delete-product-option" id="tier_price_row_{{index}}_delete_button" onclick="return shippingMethod.deleteItem(event);">' +
+        '<span><?php echo $this->jsQuoteEscape($this->__("Remove Service")); ?></span></a></div>'+
+        '</li>';
+
+    optionShippingMethodJson = <?php echo $this->jsQuoteEscape($this->getShippingMethodJson()); ?> ;
+    policyShippingControl = new Class.create();
+    policyShippingControl.prototype = {
+        defaults:{
+            template:null,
+            itemsCount:0,
+            options:optionShippingMethodJson,
+            containerId:null,
+            defaultValue:0,
+            template:null,
+            itemSelector:'li'
+        },
+        initialize: function(containerId, template, defaults) {
+            this.defaults = Object.extend(this.defaults, defaults || {});
+            this.defaults.containerId = containerId;
+            if ($(containerId)) {
+                this.defaults.container = $(containerId);
+            } else {
+                throw new Error("Please specify correct containerId");
+            }
+
+            this.defaults.template = new Template(
+                this.defaults.template,
+                new RegExp('(^|.|\\r|\\n)({{\\s*(\\w+)\\s*}})', "")
+            );
+
+        },
+        addItem: function() {
+            var data = {
+                shipping_id: arguments[0]?arguments[0]:this.defaultValue,
+                index: this.defaults.itemsCount++,
+                cost:  arguments[1]
+            };
+
+            Element.insert(this.defaults.container, {
+                bottom: this.defaults.template.evaluate(data)
+            });
+
+            var indexRow = $('row_'+data.index);
+            var indexSelect = indexRow.select('select')[0];
+
+            indexSelect.shipping_id = data.shipping_id;
+            indexSelect.setValue(data.shipping_id)
+                .observe('change',this.elementOnChange.bindAsEventListener(this));
+
+            this.disableSelect(data.shipping_id)
+                .checkIfFree(indexRow, data.shipping_id);
+
+            Sortable.create(this.defaults.containerId, {
+                elements: this.defaults.container.select(this.defaults.itemSelector)
+            });
+
+        },
+
+        checkIfFree: function(item, shipping_id) {
+
+            var costField = item.select('input[type="text"]')[0];
+
+            if (this.defaults.options[shipping_id] &&
+                this.defaults.options[shipping_id]['show_shipping_cost'] &&
+                shipping_id!=0 ) {
+                costField.enable();
+                costField.writeAttribute('name','shipping_cost[' + shipping_id + ']');
+            } else {
+                costField.disable();
+            }
+
+            return this;
+
+        },
+
+        elementOnChange: function(event) {
+
+            var select = Event.findElement(event, 'select');
+            this.enableSelect(select.shipping_id);
+            select.shipping_id = select.value;
+
+            this.disableSelect(select.shipping_id);
+            this.checkIfFree(select.up('.attribute'), select.shipping_id);
+
+        },
+
+        disableSelect: function(value) {
+            if (!!value || value != this.defaults.defaultValue) {
+                this.defaults.disabledItems.push(value);
+            }
+
+            for (var val=0; val<this.defaults.disabledItems.length; val++) {
+                this.defaults
+                    .container
+                    .select('select option[value="' + this.defaults.disabledItems[val]+ '"]')
+                    .each(function(item){
+                        item.disabled = true;
+                    });
+            }
+
+            return this;
+
+        },
+
+        enableSelect: function(value){
+            this.defaults.container.select('select option[value="'+value+'"]').each(function(item) {
+                item.disabled = false;
+            });
+            this.defaults.disabledItems = this.defaults.disabledItems.without(value);
+
+            return this;
+
+        },
+
+        deleteItem: function(event) {
+            var tr = Event.findElement(event, this.defaults.itemSelector);
+            this.enableSelect(tr.select('select')[0].value);
+            tr.remove();
+
+            return false;
+
+        }
+    };
+    options = {
+        template: policyShippingRowTemplateSecond,
+        itemsCount: 0,
+        disabledItems:[],
+        options: optionShippingMethodJson,
+        itemSelector: 'li',
+        containerId: 'configurable_attributes',
+        defaultValue: ''
+    };
+    shippingMethod = new policyShippingControl('configurable_attributes',
+        policyShippingRowTemplateSecond, options );
+
+</script>
+<?php foreach ($this->getShippingMethodCollection() as $shippingMethod) : ?>
+    <?php $shippingNum = $shippingMethod['shipping_id'];?>
+    <?php if ($this->getShippingCost($shippingNum) !=='') : ?>
+        <script type="text/javascript">
+            shippingMethod.addItem('<?php echo $shippingMethod['shipping_id'] ?>','<?php echo $this->getShippingCost($shippingNum); ?>')
+        </script>
+    <?php endif; ?>
+<?php endforeach; ?>

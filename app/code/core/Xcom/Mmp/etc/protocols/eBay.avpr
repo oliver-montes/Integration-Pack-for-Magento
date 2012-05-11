@@ -1,0 +1,2188 @@
+{
+  "protocol" : "eBay",
+  "namespace" : "com.x.marketplace.ebay.v1",
+  "types" : [ {
+    "type" : "enum",
+    "name" : "SeverityType",
+    "namespace" : "com.x.marketplace.v1",
+    "symbols" : [ "ERROR", "WARNING" ]
+  }, {
+    "type" : "record",
+    "name" : "Error",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "severity",
+      "type" : "SeverityType"
+    }, {
+      "name" : "code",
+      "type" : "string"
+    }, {
+      "name" : "message",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Site",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "name",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Environment",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "name",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Credential",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "properties",
+      "type" : {
+        "type" : "map",
+        "values" : "string"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "CurrencyAmount",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "amount",
+      "type" : "double"
+    }, {
+      "name" : "code",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "ShippingLocaleType",
+    "namespace" : "com.x.marketplace.v1",
+    "symbols" : [ "DOMESTIC", "INTERNATIONAL" ]
+  }, {
+    "type" : "enum",
+    "name" : "ShippingRateType",
+    "namespace" : "com.x.marketplace.v1",
+    "symbols" : [ "FLAT", "CALCULATED", "FREIGHT" ]
+  }, {
+    "type" : "record",
+    "name" : "SupportedShippingService",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "description",
+      "type" : "string"
+    }, {
+      "name" : "carrier",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "serviceName",
+      "type" : "string"
+    }, {
+      "name" : "shippingTimeMax",
+      "type" : "int"
+    }, {
+      "name" : "shippingTimeMin",
+      "type" : "int"
+    }, {
+      "name" : "rateType",
+      "type" : [ "null", "ShippingRateType" ]
+    }, {
+      "name" : "dimensionsRequired",
+      "type" : "boolean"
+    }, {
+      "name" : "weightRequired",
+      "type" : "boolean"
+    }, {
+      "name" : "surchargeApplicable",
+      "type" : "boolean"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ShippingServiceOption",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "sellerPriority",
+      "type" : "int"
+    }, {
+      "name" : "serviceName",
+      "type" : "string"
+    }, {
+      "name" : "cost",
+      "type" : "CurrencyAmount"
+    }, {
+      "name" : "discountAmount",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "additionalCost",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "packagingHandlingCost",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "surcharge",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "shipToLocations",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ShippingLocaleService",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "rateType",
+      "type" : "ShippingRateType"
+    }, {
+      "name" : "localeType",
+      "type" : "ShippingLocaleType"
+    }, {
+      "name" : "applyPromotionalShippingRule",
+      "type" : "boolean"
+    }, {
+      "name" : "shippingServiceOptions",
+      "type" : {
+        "type" : "array",
+        "items" : "ShippingServiceOption"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Shipping",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "shippingLocaleServices",
+      "type" : {
+        "type" : "array",
+        "items" : "ShippingLocaleService"
+      }
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "PaymentMethod",
+    "namespace" : "com.x.marketplace.v1",
+    "symbols" : [ "AMEX", "CASH_ON_DELIVERY", "CHECK", "CREDIT_CARD", "DINERS", "DISCOVER", "ESCROW", "INTEGRATED_MERCHANT_CREDIT_CARD", "MASTERCARD", "MONEY_ORDER", "MONEY_TRANSFER", "MONEY_TRANSFER_IN_CHECKOUT", "MONEYBOOKERS", "PAYMATE", "PAYMENT_ON_PICKUP", "PAYMENT_SEE_DESCRIPTION", "PAYPAL", "PROPAY", "VISA" ]
+  }, {
+    "type" : "record",
+    "name" : "Payment",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "acceptedPaymentTypes",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "PaymentMethod"
+      } ]
+    }, {
+      "name" : "immediatePaymentRequired",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "paymentInstructions",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "RefundMethod",
+    "namespace" : "com.x.marketplace.v1",
+    "symbols" : [ "MONEY_BACK", "EXCHANGE_ONLY", "STORE_CREDIT" ]
+  }, {
+    "type" : "record",
+    "name" : "SupportedReturnPolicy",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "returnsAccepted",
+      "type" : "boolean"
+    }, {
+      "name" : "method",
+      "type" : {
+        "type" : "array",
+        "items" : "RefundMethod"
+      }
+    }, {
+      "name" : "maxReturnByDays",
+      "type" : "int"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ReturnPolicy",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "description",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "returnAccepted",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "buyerPaysReturnShipping",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "returnByDays",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "refundMethod",
+      "type" : [ "null", "RefundMethod" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "SupportedCountry",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "countryCode",
+      "type" : "string"
+    }, {
+      "name" : "description",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "SupportedHandlingTime",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "maxHandlingTime",
+      "type" : "int"
+    }, {
+      "name" : "description",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "MarketplaceProfile",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "name",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "xAccountId",
+      "type" : "string"
+    }, {
+      "name" : "payment",
+      "type" : [ "null", "Payment" ]
+    }, {
+      "name" : "shipping",
+      "type" : [ "null", "Shipping" ]
+    }, {
+      "name" : "returnPolicy",
+      "type" : [ "null", "ReturnPolicy" ]
+    }, {
+      "name" : "marketSpecifics",
+      "type" : [ "null", "bytes" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ProductCategory",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "site",
+      "type" : "Site"
+    }, {
+      "name" : "id",
+      "type" : "string"
+    }, {
+      "name" : "name",
+      "type" : "string"
+    }, {
+      "name" : "parentCatId",
+      "type" : "string"
+    }, {
+      "name" : "isLeaf",
+      "type" : "boolean"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Category",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "id",
+      "type" : "string"
+    }, {
+      "name" : "name",
+      "type" : "string"
+    }, {
+      "name" : "parentId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "catalogEnabled",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "categoryLevel",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "leafCategory",
+      "type" : "boolean"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "CustomCategory",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "id",
+      "type" : "long"
+    }, {
+      "name" : "name",
+      "type" : "string"
+    }, {
+      "name" : "order",
+      "type" : "int"
+    }, {
+      "name" : "childCategories",
+      "type" : {
+        "type" : "array",
+        "items" : "CustomCategory"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "AttributeRecommendations",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "categoryId",
+      "type" : "string"
+    }, {
+      "name" : "nameValues",
+      "type" : {
+        "type" : "map",
+        "values" : {
+          "type" : "array",
+          "items" : "string"
+        }
+      }
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "StandardProductIdType",
+    "namespace" : "com.x.marketplace.v1",
+    "symbols" : [ "ISBN", "UPC", "EAN", "ASIN" ]
+  }, {
+    "type" : "record",
+    "name" : "StandardProductId",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "type",
+      "type" : "StandardProductIdType"
+    }, {
+      "name" : "value",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "enum",
+    "name" : "ImagePurpose",
+    "namespace" : "com.x.marketplace.v1",
+    "symbols" : [ "FEATURED", "GALLERY", "THUMBNAIL" ]
+  }, {
+    "type" : "record",
+    "name" : "ProductImage",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "purpose",
+      "type" : [ "null", "ImagePurpose" ]
+    }, {
+      "name" : "locationURL",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ProductAttribute",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "name",
+      "type" : "string"
+    }, {
+      "name" : "value",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ProductDetails",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "xProductTypeId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "sku",
+      "type" : "string"
+    }, {
+      "name" : "manufacturer",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "mpn",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "brand",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "msrp",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "imageURL",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "ProductImage"
+      } ]
+    }, {
+      "name" : "description",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "condition",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "attributes",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "ProductAttribute"
+      } ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Listing",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "marketItemId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "product",
+      "type" : "ProductDetails"
+    }, {
+      "name" : "startTime",
+      "type" : [ "null", "long" ]
+    }, {
+      "name" : "price",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "quantity",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "title",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "listingURL",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "status",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "subTitle",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "giftWrapAvailable",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "marketCategories",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ]
+    }, {
+      "name" : "customCategories",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ]
+    }, {
+      "name" : "payment",
+      "type" : [ "null", "Payment" ]
+    }, {
+      "name" : "shipping",
+      "type" : [ "null", "Shipping" ]
+    }, {
+      "name" : "returnPolicy",
+      "type" : [ "null", "ReturnPolicy" ]
+    }, {
+      "name" : "marketSpecifics",
+      "type" : [ "null", "bytes" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ListingFilter",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "skus",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ]
+    }, {
+      "name" : "startTime",
+      "type" : [ "null", "long" ]
+    }, {
+      "name" : "endTime",
+      "type" : [ "null", "long" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Address",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "street1",
+      "type" : "string"
+    }, {
+      "name" : "street2",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "city",
+      "type" : "string"
+    }, {
+      "name" : "county",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "stateOrProvince",
+      "type" : "string"
+    }, {
+      "name" : "country",
+      "type" : "string"
+    }, {
+      "name" : "postalCode",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "TrackingDetail",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "trackingNumber",
+      "type" : "string"
+    }, {
+      "name" : "carrier",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "service",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Shipment",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "shipmentId",
+      "type" : "string"
+    }, {
+      "name" : "address",
+      "type" : "Address"
+    }, {
+      "name" : "shippingServiceOption",
+      "type" : "ShippingServiceOption"
+    }, {
+      "name" : "trackingDetails",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "TrackingDetail"
+      } ]
+    }, {
+      "name" : "recipientName",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "weight",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "shippingDescription",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "CustomerInfo",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "userMarketId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "email",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "name",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "phone",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "OrderItem",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "marketListingId",
+      "type" : "string"
+    }, {
+      "name" : "listingTitle",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "listingURL",
+      "type" : "string"
+    }, {
+      "name" : "status",
+      "type" : "string"
+    }, {
+      "name" : "sku",
+      "type" : "string"
+    }, {
+      "name" : "quantity",
+      "type" : "int"
+    }, {
+      "name" : "cost",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "insuranceCost",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "taxAmount",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "discountAmount",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "shipmentId",
+      "type" : "string"
+    }, {
+      "name" : "giftWrap",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "giftWrapText",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "marketSpecifics",
+      "type" : [ "null", "bytes" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Order",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "orderTime",
+      "type" : "long"
+    }, {
+      "name" : "channel",
+      "type" : "string"
+    }, {
+      "name" : "marketOrderId",
+      "type" : "string"
+    }, {
+      "name" : "customer",
+      "type" : "CustomerInfo"
+    }, {
+      "name" : "items",
+      "type" : {
+        "type" : "array",
+        "items" : "OrderItem"
+      }
+    }, {
+      "name" : "totalInsuranceCost",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "totalTaxAmount",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "totalDiscountAmount",
+      "type" : [ "null", "CurrencyAmount" ]
+    }, {
+      "name" : "totalAmount",
+      "type" : "CurrencyAmount"
+    }, {
+      "name" : "status",
+      "type" : "string"
+    }, {
+      "name" : "paymentMethod",
+      "type" : [ "null", "PaymentMethod" ]
+    }, {
+      "name" : "shipments",
+      "type" : {
+        "type" : "array",
+        "items" : "Shipment"
+      }
+    }, {
+      "name" : "marketSpecifics",
+      "type" : [ "null", "bytes" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "OrderShipmentUpdate",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "shipmentId",
+      "type" : "string"
+    }, {
+      "name" : "trackingDetails",
+      "type" : {
+        "type" : "array",
+        "items" : "TrackingDetail"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "OrderUpdate",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "marketOrderId",
+      "type" : "string"
+    }, {
+      "name" : "processed",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "orderShipmentUpdate",
+      "type" : [ "null", "OrderShipmentUpdate" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "OrderFilter",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "startTime",
+      "type" : "long"
+    }, {
+      "name" : "endTime",
+      "type" : [ "null", "long" ]
+    }, {
+      "name" : "status",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "OrderUpdateError",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "orderUpdate",
+      "type" : "OrderUpdate"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ListingError",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "listing",
+      "type" : [ "null", "Listing" ]
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ListingUpdateError",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "listing",
+      "type" : "Listing"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "CancelListingError",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "sku",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "MarketplaceAccount",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "userMarketplaceId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "siteCode",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "environmentName",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "authorizationExpiration",
+      "type" : [ "null", "long" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "MarketplaceStore",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "name",
+      "type" : "string"
+    }, {
+      "name" : "categories",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "CustomCategory"
+      } ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "SearchSite",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ ],
+    "topic" : "/marketplace/site/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchSiteSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "sites",
+      "type" : {
+        "type" : "array",
+        "items" : "Site"
+      }
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "destinationId",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/site/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchSiteFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/site/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "GetStore",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "userMarketplaceId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "siteCode",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "environmentName",
+      "type" : [ "null", "string" ]
+    } ],
+    "topic" : "/marketplace/store/get",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "GetStoreSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "store",
+      "type" : "MarketplaceStore"
+    }, {
+      "name" : "userMarketplaceId",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/store/getSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "GetStoreFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "userMarketplaceId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/store/getFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchEnvironment",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "siteCode",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/environment/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchEnvironmentSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "environments",
+      "type" : {
+        "type" : "array",
+        "items" : "Environment"
+      }
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/environment/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchEnvironmentFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/environment/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "GetReturnPolicy",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : [ "null", "string" ]
+    } ],
+    "topic" : "/marketplace/returnPolicy/get",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "GetReturnPolicySucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "policy",
+      "type" : "SupportedReturnPolicy"
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/returnPolicy/getSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "GetReturnPolicyFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/returnPolicy/getFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchShippingService",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : [ "null", "string" ]
+    } ],
+    "topic" : "/marketplace/shippingService/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchShippingServiceSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "services",
+      "type" : {
+        "type" : "array",
+        "items" : "SupportedShippingService"
+      }
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/shippingService/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchShippingServiceFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/shippingService/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCountry",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : [ "null", "string" ]
+    } ],
+    "topic" : "/marketplace/country/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCountrySucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "countries",
+      "type" : {
+        "type" : "array",
+        "items" : "SupportedCountry"
+      }
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/country/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCountryFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/country/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCurrency",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "siteCode",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/currency/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCurrencySucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "currencies",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      }
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/currency/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCurrencyFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/currency/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchHandlingTime",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : [ "null", "string" ]
+    } ],
+    "topic" : "/marketplace/handlingTime/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchHandlingTimeSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "handlingTimes",
+      "type" : {
+        "type" : "array",
+        "items" : "SupportedHandlingTime"
+      }
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/handlingTime/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchHandlingTimeFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/handlingTime/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchPaymentMethod",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : [ "null", "string" ]
+    } ],
+    "topic" : "/marketplace/paymentMethod/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchPaymentMethodSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "methods",
+      "type" : {
+        "type" : "array",
+        "items" : "PaymentMethod"
+      }
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/paymentMethod/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchPaymentMethodFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/paymentMethod/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCategories",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : [ "null", "string" ]
+    } ],
+    "topic" : "/marketplace/category/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCategoriesSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "categories",
+      "type" : {
+        "type" : "array",
+        "items" : "Category"
+      }
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/category/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCategoriesFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/category/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCategoriesForProductType",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xProductTypeId",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : [ "null", "string" ]
+    } ],
+    "topic" : "/marketplace/categoryForProductType/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCategoriesForProductTypeSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xProductTypeId",
+      "type" : "string"
+    }, {
+      "name" : "categories",
+      "type" : {
+        "type" : "array",
+        "items" : "Category"
+      }
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/categoryForProductType/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchCategoriesForProductTypeFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xProductTypeId",
+      "type" : "string"
+    }, {
+      "name" : "marketplace",
+      "type" : "string"
+    }, {
+      "name" : "siteCode",
+      "type" : "string"
+    }, {
+      "name" : "environmentName",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/categoryForProductType/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "DeleteAccount",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xAccountId",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/account/delete",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "AccountDeleted",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xAccountId",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/account/deleted",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "DeleteAccountFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xAccountId",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/account/deleteFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchAccount",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ ],
+    "topic" : "/marketplace/account/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchAccountSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "accounts",
+      "type" : {
+        "type" : "array",
+        "items" : "MarketplaceAccount"
+      }
+    } ],
+    "topic" : "/marketplace/account/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchAccountFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/account/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "InitAuthorization",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "returnURL",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "cancelURL",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "environmentName",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "userMarketplaceId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "guid",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/authorization/init",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "AuthorizationPending",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "guid",
+      "type" : "string"
+    }, {
+      "name" : "redirectURL",
+      "type" : "string"
+    }, {
+      "name" : "authId",
+      "type" : "string"
+    }, {
+      "name" : "cred",
+      "type" : [ "null", "Credential" ]
+    } ],
+    "topic" : "/marketplace/authorization/pending",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "InitAuthorizationFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "environmentName",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "userMarketplaceId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/authorization/initFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "AuthorizationUserCompleted",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "authId",
+      "type" : "string"
+    }, {
+      "name" : "cred",
+      "type" : [ "null", "Credential" ]
+    } ],
+    "topic" : "/marketplace/authorization/userCompleted",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "AuthorizationCompleted",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "authId",
+      "type" : "string"
+    }, {
+      "name" : "xAccountId",
+      "type" : "string"
+    }, {
+      "name" : "userMarketplaceId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "authorizationExpiration",
+      "type" : [ "null", "long" ]
+    } ],
+    "topic" : "/marketplace/authorization/completed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "AuthorizationFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "authId",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "cred",
+      "type" : [ "null", "Credential" ]
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/authorization/failed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "CreateProfile",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "p",
+      "type" : "MarketplaceProfile"
+    } ],
+    "topic" : "/marketplace/profile/create",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "ProfileCreated",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "p",
+      "type" : "MarketplaceProfile"
+    } ],
+    "topic" : "/marketplace/profile/created",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "CreateProfileFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "p",
+      "type" : "MarketplaceProfile"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/profile/createFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "GetProfile",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/profile/get",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "GetProfileSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "p",
+      "type" : "MarketplaceProfile"
+    } ],
+    "topic" : "/marketplace/profile/getSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "GetProfileFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xProfileId",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/profile/getFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "UpdateProfile",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "p",
+      "type" : "MarketplaceProfile"
+    } ],
+    "topic" : "/marketplace/profile/update",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "ProfileUpdated",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "p",
+      "type" : "MarketplaceProfile"
+    } ],
+    "topic" : "/marketplace/profile/updated",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "UpdateProfileFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "p",
+      "type" : "MarketplaceProfile"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/profile/updateFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "DeleteProfile",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/profile/delete",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "ProfileDeleted",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/marketplace/profile/deleted",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "DeleteProfileFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xProfileId",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/marketplace/profile/deleteFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "CreateListing",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "listings",
+      "type" : {
+        "type" : "array",
+        "items" : "Listing"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/listing/create",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "ListingCreated",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "listings",
+      "type" : {
+        "type" : "array",
+        "items" : "Listing"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/listing/created",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "CreateListingFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "ListingError"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/listing/createFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchListing",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xProfileId",
+      "type" : "string"
+    }, {
+      "name" : "filter",
+      "type" : "ListingFilter"
+    } ],
+    "topic" : "/listing/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchListingSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "listings",
+      "type" : {
+        "type" : "array",
+        "items" : "Listing"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    }, {
+      "name" : "filter",
+      "type" : "ListingFilter"
+    } ],
+    "topic" : "/listing/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchListingFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "xProfileId",
+      "type" : "string"
+    }, {
+      "name" : "filter",
+      "type" : "ListingFilter"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/listing/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "UpdateListing",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "updates",
+      "type" : {
+        "type" : "array",
+        "items" : "Listing"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/listing/update",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "ListingUpdated",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "updates",
+      "type" : {
+        "type" : "array",
+        "items" : "Listing"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/listing/updated",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "UpdateListingFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "ListingUpdateError"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/listing/updateFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "CancelListing",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "skus",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/listing/cancel",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "ListingCancelled",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "skus",
+      "type" : {
+        "type" : "array",
+        "items" : "string"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/listing/cancelled",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "CancelListingFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "CancelListingError"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/listing/cancelFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchOrder",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "filter",
+      "type" : "OrderFilter"
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/order/search",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchOrdersSucceeded",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "orders",
+      "type" : {
+        "type" : "array",
+        "items" : "Order"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    }, {
+      "name" : "filter",
+      "type" : "OrderFilter"
+    } ],
+    "topic" : "/order/searchSucceeded",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "SearchOrderFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "filter",
+      "type" : "OrderFilter"
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    }, {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "Error"
+      }
+    } ],
+    "topic" : "/order/searchFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "UpdateOrder",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "updates",
+      "type" : {
+        "type" : "array",
+        "items" : "OrderUpdate"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/order/update",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "OrderUpdated",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "updates",
+      "type" : {
+        "type" : "array",
+        "items" : "OrderUpdate"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/order/updated",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "UpdateOrderFailed",
+    "namespace" : "com.x.marketplace.v1",
+    "fields" : [ {
+      "name" : "errors",
+      "type" : {
+        "type" : "array",
+        "items" : "OrderUpdateError"
+      }
+    }, {
+      "name" : "xProfileId",
+      "type" : "string"
+    } ],
+    "topic" : "/order/updateFailed",
+    "version" : "1.0.0"
+  }, {
+    "type" : "record",
+    "name" : "VariationSpecific",
+    "fields" : [ {
+      "name" : "name",
+      "type" : "string"
+    }, {
+      "name" : "value",
+      "type" : "string"
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "Variation",
+    "fields" : [ {
+      "name" : "price",
+      "type" : "com.x.marketplace.v1.CurrencyAmount"
+    }, {
+      "name" : "quantity",
+      "type" : "int"
+    }, {
+      "name" : "sku",
+      "type" : "string"
+    }, {
+      "name" : "imageUrls",
+      "type" : [ "null", {
+        "type" : "array",
+        "items" : "string"
+      } ]
+    }, {
+      "name" : "variationSpecifics",
+      "type" : {
+        "type" : "array",
+        "items" : "VariationSpecific"
+      }
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ListingVariations",
+    "fields" : [ {
+      "name" : "variations",
+      "type" : {
+        "type" : "array",
+        "items" : "Variation"
+      }
+    }, {
+      "name" : "imageVariationName",
+      "type" : [ "null", "string" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "ListingSpecifics",
+    "fields" : [ {
+      "name" : "listingFormat",
+      "type" : "string"
+    }, {
+      "name" : "duration",
+      "type" : "string"
+    }, {
+      "name" : "countryCode",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "buyItNowPrice",
+      "type" : [ "null", "com.x.marketplace.v1.CurrencyAmount" ]
+    }, {
+      "name" : "reservePrice",
+      "type" : [ "null", "com.x.marketplace.v1.CurrencyAmount" ]
+    }, {
+      "name" : "payPalEmailAddress",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "handlingTime",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "useTaxTable",
+      "type" : [ "null", "boolean" ]
+    }, {
+      "name" : "postalCode",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "location",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "listingVariations",
+      "type" : [ "null", "ListingVariations" ]
+    } ]
+  }, {
+    "type" : "record",
+    "name" : "MarketplaceProfileSpecifics",
+    "fields" : [ {
+      "name" : "location",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "postalCode",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "countryCode",
+      "type" : "string"
+    }, {
+      "name" : "payPalEmailAddress",
+      "type" : [ "null", "string" ]
+    }, {
+      "name" : "handlingTime",
+      "type" : [ "null", "int" ]
+    }, {
+      "name" : "useTaxTable",
+      "type" : [ "null", "boolean" ]
+    } ]
+  } ],
+  "messages" : {
+  }
+}

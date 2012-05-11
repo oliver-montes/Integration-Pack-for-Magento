@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Xcom
+ * @package     Xcom_Listing
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Xcom_Listing>
+            <version>0.1.0</version>
+        </Xcom_Listing>
+    </modules>
+    <global>
+        <blocks>
+            <xcom_listing>
+                <class>Xcom_Listing_Block</class>
+            </xcom_listing>
+        </blocks>
+        <models>
+            <xcom_listing>
+                <class>Xcom_Listing_Model</class>
+                <resourceModel>xcom_listing_resource</resourceModel>
+            </xcom_listing>
+            <xcom_listing_resource>
+                <class>Xcom_Listing_Model_Resource</class>
+                <entities>
+                    <category>
+                        <table>xcom_listing_category</table>
+                    </category>
+                    <category_product_type>
+                        <table>xcom_listing_category_product_type</table>
+                    </category_product_type>
+                    <channel_product>
+                        <table>xcom_listing_channel_product</table>
+                    </channel_product>
+                    <listing>
+                        <table>xcom_listing</table>
+                    </listing>
+                    <channel_history>
+                        <table>xcom_listing_channel_history</table>
+                    </channel_history>
+                    <message_listing_log_request>
+                        <table>xcom_listing_log_request</table>
+                    </message_listing_log_request>
+                    <message_listing_log_response>
+                        <table>xcom_listing_log_response</table>
+                    </message_listing_log_response>
+                </entities>
+            </xcom_listing_resource>
+        </models>
+        <resources>
+            <xcom_listing_setup>
+                <setup>
+                    <module>Xcom_Listing</module>
+                </setup>
+            </xcom_listing_setup>
+        </resources>
+        <helpers>
+            <xcom_listing>
+                <class>Xcom_Listing_Helper</class>
+            </xcom_listing>
+        </helpers>
+        <cache>
+            <types>
+                <xcom_category translate="label,description" module="xcom_listing">
+                    <label>XCOM Category Cache</label>
+                    <description>XCOM Category Cache.</description>
+                    <tags>XCOM_CATEGORY_COLLECTION</tags>
+                </xcom_category>
+            </types>
+        </cache>
+        <events>
+            <save_mapping_relation>
+                <observers>
+                    <category_for_product_type>
+                        <class>xcom_listing/observer</class>
+                        <method>sendRecommendedCategorySearch</method>
+                    </category_for_product_type>
+                </observers>
+            </save_mapping_relation>
+        </events>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <xcom_listing>
+                    <file>xcom/listing.xml</file>
+                </xcom_listing>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Xcom_Listing>
+                    <files>
+                        <default>Xcom_Listing.csv</default>
+                    </files>
+                </Xcom_Listing>
+            </modules>
+        </translate>
+    </adminhtml>
+    <default>
+        <xcom>
+            <topics>
+                <marketplace>
+                    <category_search initializer="prepopulate">
+                        <name>marketplace/category/search</name>
+                        <message>xcom_listing/message_marketplace_category_search_request</message>
+                    </category_search>
+                    <category_search_success>
+                        <name>marketplace/category/searchSucceeded</name>
+                        <message>xcom_listing/message_marketplace_category_search_succeeded</message>
+                    </category_search_success>
+                    <category_search_failed>
+                        <name>marketplace/category/searchFailed</name>
+                        <message>xcom_listing/message_marketplace_category_search_failed</message>
+                    </category_search_failed>
+                    <catalogForProductType_search>
+                        <name>marketplace/categoryForProductType/search</name>
+                        <message>xcom_listing/message_marketplace_categoryForProductType_search_request</message>
+                    </catalogForProductType_search>
+                    <catalogForProductType_searchSucceeded>
+                        <name>marketplace/categoryForProductType/searchSucceeded</name>
+                        <message>xcom_listing/message_marketplace_categoryForProductType_search_succeeded</message>
+                    </catalogForProductType_searchSucceeded>
+                    <catalogForProductType_searchFailed>
+                        <name>marketplace/categoryForProductType/searchFailed</name>
+                        <message>xcom_listing/message_marketplace_categoryForProductType_search_failed</message>
+                    </catalogForProductType_searchFailed>
+                </marketplace>
+                <listing>
+                    <create>
+                        <name>listing/create</name>
+                        <message>xcom_listing/message_listing_create_request</message>
+                    </create>
+                    <create_success>
+                        <name>listing/created</name>
+                        <message>xcom_listing/message_listing_create_created</message>
+                    </create_success>
+                    <create_fail>
+                        <name>listing/createFailed</name>
+                        <message>xcom_listing/message_listing_create_failed</message>
+                    </create_fail>
+                    <update>
+                        <name>listing/update</name>
+                        <message>xcom_listing/message_listing_update_request</message>
+                    </update>
+                    <update_success>
+                        <name>listing/updated</name>
+                        <message>xcom_listing/message_listing_update_updated</message>
+                    </update_success>
+                    <update_fail>
+                        <name>listing/updateFailed</name>
+                        <message>xcom_listing/message_listing_update_failed</message>
+                    </update_fail>
+                    <cancel>
+                        <name>listing/cancel</name>
+                        <message>xcom_listing/message_listing_cancel_request</message>
+                    </cancel>
+                    <cancel_success>
+                        <name>listing/cancelled</name>
+                        <message>xcom_listing/message_listing_cancel_cancelled</message>
+                    </cancel_success>
+                    <cancel_fail>
+                        <name>listing/cancelFailed</name>
+                        <message>xcom_listing/message_listing_cancel_failed</message>
+                    </cancel_fail>
+                    <specifics>
+                        <name>listing/create/listingSpecifics</name>
+                        <message>xcom_listing/message_listing_specifics_request</message>
+                    </specifics>
+                    <search>
+                        <name>listing/search</name>
+                        <message>xcom_listing/message_listing_search_request</message>
+                    </search>
+                    <search_success>
+                        <name>listing/searchSucceeded</name>
+                        <message>xcom_listing/message_listing_search_succeeded</message>
+                    </search_success>
+                    <search_fail>
+                        <name>listing/searchFailed</name>
+                        <message>xcom_listing/message_listing_search_failed</message>
+                    </search_fail>
+                </listing>
+            </topics>
+        </xcom>
+    </default>
+    <crontab>
+        <jobs>
+            <xcom_listing_listing_search>
+                <schedule><cron_expr>*/15 * * * *</cron_expr></schedule>
+                <run><model>xcom_listing/observer::sendListingSearchRequest</model></run>
+            </xcom_listing_listing_search>
+        </jobs>
+    </crontab>
+</config>

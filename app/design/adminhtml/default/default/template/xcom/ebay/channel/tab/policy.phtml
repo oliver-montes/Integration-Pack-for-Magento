@@ -1,0 +1,192 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     xcom_ebay
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+
+/** @var $this Xcom_Ebay_Block_Adminhtml_Channel_Edit_Tab_Policy */
+?>
+<?php if (!$this->getChannel()->getId()) : ?>
+<div class="entry-edit">
+    <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+</div>
+<?php else: ?>
+<div class="entry-edit">
+    <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+    <div class="entry-edit-head"><h4 class="icon-head head-customer-view"><?php echo $this->__('Policy Settings') ?></h4>
+    <div class="form-buttons channel-edit-buttons"><?php echo $this->getButtonsHtml(); ?></div>
+    </div>
+    <?php echo $this->getFormHtml(); ?>
+</div><br />
+<div class="entry-edit">
+    <?php echo $this->getChildHtml('policy_grid'); ?>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+policyContainer = new Class.create();
+
+policyContainer.prototype = {
+    formId : null,
+    initialize : function(policyFormId) {
+        this.formId = policyFormId;
+        this.initReturnFields();
+        this.initPostalCodeField();
+    },
+
+    showForm : function() {
+        this.initPostalCodeField();
+        if (window.channelPolicyAccordionAccordionJs) {
+            channelPolicyAccordionAccordionJs.hideAllItems();
+        }
+        this._show('accordion_fieldset');
+        this._show('save_policy_button');
+        this._show('cancel_policy_button');
+        this._hide('add_policy_button');
+    },
+
+    hideForm : function() {
+        Form.getElements($(this.formId)).each(this.resetForm.bind(this));
+        varienGlobalEvents.fireEvent('resetPolicyForm');
+        this.resetReturnFields();
+        if ($('policy_id')) {
+            $('policy_id').value = '';
+        }
+        this._hide('accordion_fieldset');
+        this._hide('save_policy_button');
+        this._hide('cancel_policy_button');
+        this._show('add_policy_button');
+    },
+
+    resetForm : function(element) {
+        switch (element.type.toLowerCase()) {
+            case "text":
+            case "password":
+            case "textarea":
+//            case "hidden":
+                element.value = "";
+                break;
+            case "radio":
+            case "checkbox":
+                if (element.checked) {
+                    element.checked = false;
+                }
+                break;
+            case "select-one":
+            case "select-multi":
+                element.selectedIndex = 0;
+                break;
+            default:
+                break;
+        }
+    },
+
+    _show : function(elementId) {
+        if ($(elementId).hasClassName('accordion_disabled')) {
+            $(elementId).removeClassName('accordion_disabled');
+        }
+    },
+
+    _hide : function(elementId) {
+        if (!$(elementId).hasClassName('accordion_disabled')) {
+            $(elementId).addClassName('accordion_disabled');
+        }
+    },
+
+    initReturnFields : function() {
+        if (!$$('tr.return_fields') || !$('return_accepted')) {
+            return;
+        }
+        if ($('return_accepted').value !== '1') {
+            $$('tr.return_fields').invoke('hide');
+        }
+        $('return_accepted').observe('change', function (event) {
+            var element = event.element();
+            if (element && element.value == '1') {
+                $$('tr.return_fields').invoke('show');
+            } else {
+                $$('tr.return_fields').invoke('hide');
+            }
+        });
+    },
+
+    resetReturnFields : function() {
+        if ($$('tr.return_fields')) {
+            $$('tr.return_fields').invoke('hide');
+        }
+    },
+
+    initPostalCodeField : function() {
+        if ($('postal_code')) {
+            new Varien.searchForm(this.formId, 'postal_code', 'Enter zip code');
+        }
+    }
+};
+
+var PolicyForm = Class.create(varienForm, {
+    _submit : function() {
+        var submitUrl = (this.submitUrl) ? this.submitUrl : $(this.formId).action;
+        new Ajax.Request(submitUrl, {
+            method: 'post',
+            parameters: $(this.formId).serialize(),
+            onSuccess: this.updatePolicyContent.bind(this)
+        });
+    },
+
+    updatePolicyContent : function (transport) {
+        $('channel_info_tabs_policy_content').update(transport.responseText);
+    },
+
+    checkTextField : function (object, emptyText) {
+        if (object && object.value == emptyText) {
+            object.value = '';
+        }
+    },
+
+    customSubmit : function() {
+        this.checkTextField($('postal_code'), 'Enter zip code');
+        if (!this.submit()) {
+            Form.getElements($(this.formId)).findAll(function(elm){
+                if ($(elm).hasClassName('validation-failed')) {
+                    $(elm).up('dd').addClassName('open');
+                }
+            });
+        }
+    }
+});
+
+policyFormId = '<?php echo $this->getForm()->getId();?>';
+policyEditForm = new PolicyForm(policyFormId);
+varPolicyContainer = new policyContainer(policyFormId);
+
+Object.extend(<?php echo $this->getChild('policy_grid')->getMassactionBlock()->getJsObjectName(); ?>, {
+    onMassactionComplete : function (transport){
+        $('channel_info_tabs_policy_content').update(transport.responseText);
+    }
+});
+
+
+
+//]]>
+</script>
+<?php endif; ?>

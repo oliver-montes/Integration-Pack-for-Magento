@@ -1,0 +1,303 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+
+/** @var $this Xcom_Ebay_Block_Adminhtml_Product_Edit_Tab_Settings_CategoriesTree */
+
+$hasRecommended = $this->hasRecommendedCategories();
+$displayNone = 'style="display: none;"';
+$checkboxAttr = '';
+
+if (!$hasRecommended) {
+    $checkboxAttr = 'checked="checked" disabled="disabled"';
+}
+?>
+<div class="entry-edit">
+    <div class="field-row block">
+        <input id="hide_recommended_categories" type="checkbox" <?php echo $checkboxAttr ?> />
+        <label for="hide_recommended_categories"><?php echo $this->__('Turn Off Recommendation') ?></label>
+    </div>
+    <fieldset>
+        <div class="field-row tree_container" style="overflow: auto; height: 300px">
+            <div class="tree x-tree" id="categories_tree" <?php echo $hasRecommended ? $displayNone : '' ?> ></div>
+            <div class="tree x-tree" id="categories_tree_recommended" <?php echo $hasRecommended ? '' : $displayNone ?>></div>
+            <input class="<?php echo ($this->getData('required') ? 'required-entry' : ''); ?>"
+            type="hidden" id="category_id"
+            name="<?php echo ($this->getData('required') ? 'category_id' : ''); ?>"
+            value="<?php echo $this->getSelectedCategory(); ?>" />
+        </div>
+    </fieldset>
+</div>
+<!-- Draw Resources Tree -->
+<script type="text/javascript">
+
+    Ext.onReady(function(){
+        var tree, treeRec;
+
+        /**
+         * Node for save selected value
+         *
+         * @type {object}
+         */
+        var nodeValue = $('category_id');
+
+        <?php if ($hasRecommended) : ?>
+        var categoriesTree = $('categories_tree');
+        var categoriesTreeRecommended = $('categories_tree_recommended');
+        Event.observe('hide_recommended_categories', 'click', function(event) {
+            var checked = event.element().checked;
+            categoriesTree.style.display            = checked ? '' : 'none';
+            categoriesTreeRecommended.style.display = checked ? 'none' : '';
+            var treeHide = checked ? treeRec : tree;
+            var treeShow = !checked ? treeRec : tree;
+            var selectedHide = treeHide.tree.getSelectionModel().getSelectedNode();
+            var selectedShow = treeShow.tree.getSelectionModel().getSelectedNode();
+
+            if (selectedShow) {
+                nodeValue.value = treeShow.id;
+            } else {
+                nodeValue.value = '';
+            }
+            if (selectedHide && typeof treeHide.options.onSelect == 'function') {
+                treeHide.nodeClick(selectedHide, null, false);
+            }
+            if (selectedShow && typeof treeShow.options.onSelect == 'function') {
+                treeShow.nodeClick(selectedShow, null, true);
+            }
+        });
+        <?php endif; ?>
+
+
+
+
+
+
+        var onSelect = function(node) {
+            if (!nodeValue.name) {
+                //if field isn't required then it will not send
+                //but if some node checked set name and send value to server
+                nodeValue.name = 'category_id';
+            }
+        };
+
+
+        <?php if ($hasRecommended) : ?>
+        //recommended
+        treeRec = new ExtTreeConstructor({
+            id: 'categories_tree_recommended',
+            uncheckInTree: [tree],
+            expand: 'all',
+            rootName: 'Root',
+            rootId: 0,
+            rootVisible: false,
+            onSelect: onSelect,
+            nodeValue: nodeValue,
+            json: <?php echo $this->getTreeJson(true)?>
+        });
+        treeRec.render();
+        <?php endif; ?>
+
+        //all
+        tree = new ExtTreeConstructor({
+            id: 'categories_tree',
+            uncheckInTree: [treeRec],
+            expand: 'root',
+            rootName: 'Root',
+            rootId: 0,
+            rootVisible: false,
+            onSelect: onSelect,
+            jsonUrl: '<?php echo $this->getJsonUrl()?>',
+            async: true,
+            nodeValue: nodeValue,
+            json: <?php echo $this->getTreeJson()?>
+        });
+        tree.render();
+    });
+    ExtTreeConstructor = function(options) {
+        // shorthand
+        var Tree = Ext.tree;
+
+        var _this = this;
+
+        this.options = options;
+
+        var treeLoader = false;
+        if (options.async) {
+            treeLoader = new Tree.TreeLoader({
+                dataUrl: options.jsonUrl
+            });
+            treeLoader.on("beforeload", function(treeLoader, node) {
+                treeLoader.baseParams.id = node.attributes.id;
+                treeLoader.baseParams.form_key = FORM_KEY;
+            });
+            treeLoader.on("load", function(treeLoader, node, config) {
+                _this.tree.selectCurrentNode();
+                varienWindowOnload();
+            });
+        }
+
+        this.tree = new Tree.TreePanel.Enhanced(options.id, {
+            animate: false,
+            loader: treeLoader,
+            enableDD: false,
+            containerScroll: true,
+            rootVisible: options.rootVisible
+        });
+
+        // set the root node
+        var rootOptions = {
+            id: this.options.rootId,
+            text: this.options.rootName,
+            draggable: false
+        };
+
+        var root;
+        if (!this.options.json) {
+            root = new Tree.AsyncTreeNode(rootOptions);
+        } else {
+            root = new Tree.TreeNode(rootOptions);
+        }
+
+        this.tree.setRootNode(root);
+
+        /**
+         * Render tree
+         *
+         * @return {ExtTreeConstructor}
+         */
+        this.render = function() {
+            // render the tree
+            _this.tree.render();
+            if (_this.options.expand == 'root') {
+                _this.tree.getRootNode().expand();
+            } else if (_this.options.expand == 'all') {
+                _this.tree.expandAll();
+            }
+            _this.tree.selectCurrentNode();
+            return _this;
+        };
+
+        /**
+         * Render by JSON string
+         *
+         * @param parent
+         * @param config
+         * @return {null}
+         */
+        this.buildJsonTree = function(parent, config){
+            if (!config)
+                return null;
+
+            if (parent && config && config.length){
+                for (var i = 0; i < config.length; i++){
+                    config[i].uiProvider = Ext.tree.TreeNodeUI;
+                    var node;
+                    if (_this.options.async) {
+                        node = new Ext.tree.AsyncTreeNode(config[i]);
+                    } else {
+                        node = new Ext.tree.TreeNode(config[i]);
+                    }
+                    parent.appendChild(node);
+                    if (config[i].checked) {
+                        _this.tree.currentNodeId = config[i].id
+                    }
+                    if (config[i].children){
+                        _this.buildJsonTree(node, config[i].children);
+                    }
+                }
+            }
+            return null;
+        };
+
+        /**
+         * Add click event to node to change state of checkbox
+         *
+         * @param {object} node
+         * @param {object} e
+         * @param {boolean} selected    Set enable manual logic for selecting/un-selecting
+         * @return {null}
+         */
+        this.nodeClick = function (node, e, selected){
+            if (!node.leaf) {
+                //do nothing for
+                return false;
+            }
+
+            //do event but selecting node still not done
+            if ((selected || typeof selected === 'undefined' && !node.isSelected()) && _this.options.nodeValue) {
+                _this.options.nodeValue.value = node.id;
+                if (typeof _this.options.onSelect == 'function') {
+                    _this.options.onSelect(node, _this);
+                }
+            } else if (false === selected) {
+                _this.options.nodeValue.value = '';
+            }
+
+            return true;
+        };
+
+        if (options.async) {
+            treeLoader.createNode = function(config) {
+                var node;
+                if (!config.leaf) {
+                    node = new Ext.tree.AsyncTreeNode(config);
+                } else {
+                    if (_this.options.nodeValue.value == config.id) {
+                        config.checked = true;
+                    }
+                    config.uiProvider = Ext.tree.TreeNodeUI;
+                    node = new Ext.tree.TreeNode(config);
+                    if (config.checked) {
+                        //set selected node ID
+                        _this.tree.currentNodeId = config.id;
+                    }
+                }
+                return node;
+            };
+        }
+        if (options.json) {
+            this.buildJsonTree(root, options.json);
+        }
+
+        this.tree.addListener('click', this.nodeClick.createDelegate(this));
+    };
+
+    Ext.tree.TreePanel.Enhanced = function(el, config) {
+        Ext.tree.TreePanel.Enhanced.superclass.constructor.call(this, el, config);
+    };
+
+    Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
+        selectCurrentNode : function() {
+            if (this.currentNodeId) {
+                var selectedNode = this.getNodeById(this.currentNodeId);
+                if (selectedNode.leaf) {
+                    this.getSelectionModel().select(selectedNode);
+                }
+            }
+            return this;
+        }
+    });
+
+</script>

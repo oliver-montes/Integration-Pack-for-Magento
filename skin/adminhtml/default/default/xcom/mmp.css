@@ -1,0 +1,116 @@
+/**
+ * Policy Edit Form
+ */
+#accordion_fieldset .form-list td.label {width: 0;}
+#accordion_fieldset .form-list td.value {width: 100%;}
+.accordion_disabled {display:none;}
+
+#shipping_method .shipping_data { }
+#shipping_method .shipping_data thead td { padding:0 0 5px 0; font-weight: bold; }
+#shipping_method .shipping_data tbody td { padding:0 20px 0 0; }
+#shipping_method .shipping_data input.input-text { width: 68px !important; }
+#shipping_method .shipping_data .priority { width:100px; }
+#shipping_method .shipping_data .shipping_service input { float:left; }
+#shipping_method .shipping_data .shipping_service label { display:block; margin:0 0 0 20px; }
+#shipping_method .shipping_data .cost { width: 100px; }
+
+/* DateTime picker input item */
+.form-list td.value input.datetime-picker.input-text { width:150px !important; }
+
+#dd-shipping .form-list td.value {width:650px !important;}
+#dd-shipping .value .postal_code {width:207px !important; margin-left:10px;}
+
+.payment_paypal_email_field {float:right;}
+.payment_paypal_email_li {width:400px;}
+.shipping_disabled {background: #eee !important;}
+#shipping_method_table .validation-advice {}
+
+
+.shipping-name-label {
+    /*display: inline-block;*/
+    width: 270px !important;
+    float: none !important;
+}
+
+/* eBay account */
+.adminhtml-ebay-account-edit .form-list td.label,
+.adminhtml-ebay-product-publish .form-list td.label,
+.adminhtml-map-attribute-editname .form-list td.label { width: 120px; }
+
+.adminhtml-ebay-account-edit .form-list td.label label,
+.adminhtml-ebay-product-publish .form-list td.label label,
+.adminhtml-map-attribute-editname .form-list td.label label { width: 105px; }
+
+.adminhtml-ebay-product-publish .form-list .channel-products-value { vertical-align:middle; width:500px;}
+/* Recommended */
+.adminhtml-ebay-product-publish select#category_id optgroup,
+.adminhtml-ebay-product-publish select#category_id option {display: none;}
+.adminhtml-ebay-product-publish select#category_id option[value=''],
+.adminhtml-ebay-product-publish select#category_id optgroup.recommended,
+.adminhtml-ebay-product-publish select#category_id option.recommended {display:block;}
+/* All Categories */
+.adminhtml-ebay-product-publish select#category_id.show-all optgroup,
+.adminhtml-ebay-product-publish select#category_id.show-all option {display: block;}
+
+.adminhtml-ebay-account-edit .form-list p.note { padding-top: 2px; }
+
+#request_fieldset table { width:100%;}
+#request_fieldset table .label { width:4%;}
+#request_fieldset table .label label { width:inherit; padding-right:20%;}
+#request_fieldset table .value, #request_fieldset table .value textarea { width:98%;}
+
+.adminhtml-channel-product-index .wrapper { min-width: 980px; }
+.adminhtml-channel-product-index .massaction .entry-edit .field-row label { margin-left: 0px; }
+.adminhtml-channel-product-index .massaction .entry-edit form { margin-left:-10px; min-width: 450px; display:block; }
+.adminhtml-channel-product-index .massaction .entry-edit fieldset { float:right; }
+
+
+/* Mapping */
+#target_attribute_set_tree #tree-div {width: 300px;}
+.product-type-tree-div {height:300px; overflow:scroll; background: #fff;}
+.adminhtml-mapping-attribute-index .hor-scroll .select-div { float: left; padding-right: 30px; }
+.adminhtml-mapping-attribute-index .hor-scroll .value br { display: none; }
+.adminhtml-mapping-attribute-index .hor-scroll .select { width: 260px; }
+.adminhtml-mapping-attribute-index .hor-scroll .button-div { clear: both; padding-left: 378px; }
+
+.is_required_attribute {color: red;}
+.is_custom_attribute {color: grey;}
+
+/* Channel Products Settings */
+.form-list td.channel-products-value,
+.form-list td.channel-products-value select      { width:300px; padding-left: 5px !important; }
+.entry-edit .channel-edit-buttons button {margin: 0 0 0 5px;}
+
+.failed {color:red;}
+.created {color:green;}
+
+
+tr.policy-disabled { background-color: #f0eeed; color: #969696; }
+/* Initializer */
+#progress_bar {
+    width:250px;
+    height:18px;
+    border:1px solid #95A486;
+    background: #fff;
+}
+#progress_bar .status {
+    background: #EFF5EA;
+    float:left;
+}
+#progress_bar p {
+    color: #3D6611;
+    float:left;
+    position:absolute;
+    padding:1px 0 0 3px;
+}
+
+#system-fieldset-sub-head-comment {
+    padding: 10px 10px 20px 0;
+}
+
+ul.tabs li.channelgroup  {  background: url(images/side_col_bg.gif) repeat-y right #fff; color:#eb5e00; font-weight: bold  }
+ul.tabs li.channelgroup span { background:url(images/tabs_span_bg.gif) repeat-x 0 100%; padding-top: 1.5em; cursor:default; }
+ul.tabs li.channeltype span   { padding-left:3.5em; }
+
+li.tab-disabled a, li.tab-disabled a:hover{color: #c0c0c0; background: url("images/side_col_bg.gif") repeat-y scroll 100% 50% #efefef;}
+li.tab-disabled span {cursor: default;}

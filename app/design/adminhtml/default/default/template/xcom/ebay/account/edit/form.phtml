@@ -1,0 +1,189 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+<div class="entry-edit">
+    <?php echo $this->getFormHtml();?>
+</div>
+<?php echo $this->getChildHtml('form_after');?>
+
+<script type="text/javascript">
+//<![CDATA[
+
+var EbayAuthorization = Class.create();
+EbayAuthorization.prototype = {
+    initialize: function() {
+        this.varienForm =  new varienForm('edit_form');
+        this.redirectURL = null;
+        this.initAuthorizationMessageUrl = '<?php echo $this->getInitAuthorizationMessageUrl() ?>';
+        this.completeAuthorizationMessageUrl = '<?php echo $this->getCompleteAuthorizationMessageUrl() ?>';
+        this.popupWindow = null;
+
+        $('authorize_button').observe('click', this.sendInitAuthorizationMessage.bindAsEventListener(this));
+
+        <?php if (!$this->hasUserId()): ?>
+        $('user_id_text_container').hide();
+        <?php endif; ?>
+        $('error_message').addClassName('error');
+        $('error_message_container').hide();
+    },
+
+    sendInitAuthorizationMessage: function() {
+        $('error_message_container').hide();
+        if (!this.validateForm()) {
+            return;
+        }
+        this.disableForm();
+        new Ajax.Request(this.initAuthorizationMessageUrl, {
+            method: 'post',
+            parameters: {environment: $('environment').value, user_id: $('user_id').value},
+            onSuccess: function(transport) {
+                try {
+                    var response = transport.responseText.evalJSON();
+                    if (response.error) {
+                        alert(response.message);
+                        $('error_message_container').show();
+                        this.enableForm();
+                        // check where we are
+                        <?php if ($this->hasUserId()): ?>
+                        $('environment').disabled = true;
+                        <?php endif; ?>
+                    }
+                    else {
+                        this.redirectURL = response.redirectURL;
+                        $('auth_id').value = response.authId;
+                        this.openWindow();
+                    }
+                }
+                catch (e) {
+                    alert(e);
+                }
+            }.bind(this)
+        });
+    },
+
+    sendCompleteAuthorizationMessage: function() {
+        new Ajax.Request(this.completeAuthorizationMessageUrl, {
+            method: 'post',
+            parameters: {authId: $('auth_id').value, environment: $('environment').value},
+            onSuccess: function(transport) {
+                try {
+                    var response = transport.responseText.evalJSON();
+                    if (response.error) {
+                        alert(response.message);
+                        $('error_message_container').show();
+                        this.enableForm();
+                        // check where we are
+                        <?php if ($this->hasUserId()): ?>
+                        $('environment').disabled = true;
+                        <?php endif; ?>
+                        return;
+                    }
+                    else {
+                        $('user_id').value = response.userMarketplaceId;
+                        $('validated_at').value = response.validatedAt;
+                        $('user_id_text').innerHTML = '<strong>' + response.userMarketplaceId + '</strong>';
+                        $('note_user_id_text').innerHTML = response.validatedAtText;
+                        $('user_id_text_container').show();
+                        this.enableForm();
+                        //environment drop down must be disabled for saved account
+                        $('environment').disabled = true;
+                    }
+                }
+                catch (e) {
+                    alert(e);
+                }
+            }.bind(this)
+        });
+    },
+
+    openWindow: function() {
+        if (this.popupWindow == null || this.popupWindow.closed) {
+            this.popupWindow = window.open(this.redirectURL, 'ebay_authorization_window', 'width=1000, height=500');
+        }
+        else {
+            this.popupWindow.focus();
+        }
+        if (typeof this.intervalID == "number") {
+            window.clearInterval(this.intervalID);
+            delete this.intervalID;
+        }
+        this.intervalID = window.setInterval(function(){this.checkWindow();}.bind(this), 500);
+        return false;
+    },
+
+    checkWindow: function() {
+        if (this.popupWindow != null && this.popupWindow.closed) {
+            window.clearInterval(this.intervalID);
+            delete this.intervalID;
+            this.sendCompleteAuthorizationMessage();
+        }
+    },
+
+    disableForm: function() {
+        $('edit_form').getElements().each(function(elm) {
+            elm.disable();
+        });
+        $('authorize_button').removeClassName('form-button');
+        $('authorize_button').addClassName('disabled');
+    },
+
+    enableForm: function() {
+        $('edit_form').getElements().each(function(elm) {
+            elm.enable();
+        });
+        $('authorize_button').removeClassName('disabled');
+        $('authorize_button').addClassName('form-button');
+    },
+
+    validateForm: function() {
+        return this.varienForm.validate();
+    },
+
+    submit: function() {
+        $('error_message_container').hide();
+        if (!this.validateForm()) {
+            return;
+        }
+        var validated = 1;
+        if (Validation.get('IsEmpty').test($('auth_id').value)) {
+            validated = 0;
+        }
+        if (Validation.get('IsEmpty').test($('user_id').value)) {
+            validated = 0;
+        }
+        if (Validation.get('IsEmpty').test($('validated_at').value)) {
+            validated = 0;
+        }
+        if (!validated) {
+            $('error_message_container').show();
+            return;
+        }
+        this.varienForm.submit();
+    }
+};
+var varAuthorization = new EbayAuthorization();
+//]]>
+</script>

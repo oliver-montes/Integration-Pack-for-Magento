@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Xcom
+ * @package     Xcom_Google
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <sections>
+        <xcom_channel>
+            <groups>
+                <google translate="label">
+                    <label>Google Product Search</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>110</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <fields>
+                        <registration_extension_header translate="label">
+                            <label>Register</label>
+                            <frontend_model>xcom_google/adminhtml_system_form_renderer_config_headingComment</frontend_model>
+                            <comment>Click on the "Register" button below to enable this extension on your Magento instance.</comment>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </registration_extension_header>
+                        <registration_extension_button>
+                            <label/>
+                            <frontend_model>xcom_google/adminhtml_system_form_renderer_config_registerButton</frontend_model>
+                            <button_label>Register</button_label>
+                            <button_url><![CDATA[*/google_register/index]]></button_url>
+                            <comment>Note: Clicking on the register button will open a new browser and take you to x.com where you will be required to login and complete registration</comment>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </registration_extension_button>
+                    
+                        <!-- Feed Export Settings -->
+                        <heading_feed_export translate="label">
+                            <label>Feed Export Settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </heading_feed_export>
+                        <feed_export_automatic translate="label">
+                            <label>Automatic</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </feed_export_automatic>
+                        <feed_export_start_time translate="label">
+                            <label>Start Time</label>
+                            <frontend_type>time</frontend_type>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </feed_export_start_time>
+                        <feed_export_frequency translate="label">
+                            <label>Frequency</label>
+                            <frontend_type>select</frontend_type>
+                            <format>text</format>
+                            <source_model>adminhtml/system_config_source_cron_frequency</source_model>
+                            <backend_model>adminhtml/system_config_backend_sitemap_cron</backend_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                        </feed_export_frequency>
+                    </fields>
+                </google>
+            </groups>
+        </xcom_channel>
+    </sections>
+</config>
