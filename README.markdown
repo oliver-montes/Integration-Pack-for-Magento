@@ -53,7 +53,7 @@ change. In the alpha version, backward compatibility is not enabled.
 **Send Us Your Feedback**
 
 Please send comments, questions, and issues to
-[productupdates@x.com](mailto:productupdates@x.com). The X.commerce
+[productfeedback@x.com](mailto:productfeedback@x.com). The X.commerce
 Integration Pack Product Manger will contact you within 48 hours.
 
 
